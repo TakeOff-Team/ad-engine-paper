@@ -44,11 +44,15 @@ It is not much of a codebase on purpose. The skills are the product; the brand's
 
 ## Generation
 
-The brand's **prompt modifier** (`visual-guidelines.md`) opens every image prompt and is what makes a plate look like the brand rather than like stock AI. The image tool is the brand's choice, recorded in `intelligence/setup.json`: Higgsfield through its connector, or fal through `FAL_KEY`. Both cost real money or credits. The build states the exact cost and gets explicit approval before any paid call. A format with no photograph in it generates nothing and costs nothing.
+The brand's **prompt modifier** (`visual-guidelines.md`) opens every image prompt and is what makes a plate look like the brand rather than like stock AI. The image tool is the brand's choice, recorded in `intelligence/setup.json`: Paper's own image generation, Higgsfield through its connector, or fal through `FAL_KEY`. All three cost money, credits or plan usage. The build states the exact cost and gets explicit approval before any paid call. A format with no photograph in it generates nothing and costs nothing.
+
+## Tools
+
+Best tool first, fallback always, the person told once. The full table, the cheap way to check each tool, and the connect lines are in `TOOLS.md`. Only Paper is required.
 
 ## Guardrails (non-negotiable)
 
-1. **Nothing is spent without an explicit yes.** Show the cost before the first paid call, for fal dollars and Higgsfield credits alike, and for Apify pulls over a dollar.
+1. **Nothing is spent without an explicit yes.** Show the cost before the first paid call, for fal dollars, Higgsfield credits and Paper generations alike, and for Apify pulls over a dollar.
 2. Offers come from `intelligence/offers.md` by ID; claims must be supportable by `brands/[brand]/intelligence/` content. Compliance rules in `brand-voice.md` are hard constraints, and no style or conversion rule may harden a health claim past what `intelligence/` supports. Truth outranks voice, which outranks everything else.
 3. Reference ads and competitor ads contribute format and structure only, never another brand's copy, product or likeness.
 4. No em dashes in any line a customer reads.

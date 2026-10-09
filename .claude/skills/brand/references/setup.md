@@ -7,7 +7,7 @@
 ```json
 {
   "brand_type": "product",
-  "image_tool": "higgsfield",
+  "image_tool": "paper",
   "image_model": "nano_banana_pro",
   "relationship": "own",
   "advertiser": "The brand itself",
@@ -20,7 +20,7 @@
 | Field | Values | Read by |
 |---|---|---|
 | `brand_type` | `product` (a physical thing with a pack shot) or `service` (services, courses, software, anything without one) | `/paper-ads`: product plates need a packshot and a size reference; service brands have no pack shot, so a base photo (when the reference calls for one) is a scene, a setting or a moment, never a product, and needs no size reference |
-| `image_tool` | `higgsfield` or `fal` | `/paper-ads`: which path makes the photographic plate |
+| `image_tool` | `paper`, `higgsfield` or `fal` | `/paper-ads`: which path makes the photographic plate |
 | `image_model` | optional override. Valid Higgsfield ids: `nano_banana_pro` (default, 4:5 native) or `gpt_image_2` (no 4:5, cropped from 3:4). On fal the script fixes the model; leave it out | `/paper-ads` |
 | `relationship` | `own`, `client` or `practice`. A client brand holds every unverified offer, named person and competitor mention for sign-off; a practice brand flags them and continues | `/ad-angles`, `/paper-ads` |
 | `advertiser` | who runs the ads: the brand, or the person as an affiliate or agency | `/ad-angles` |
@@ -39,6 +39,13 @@ person asks.
 > behind the ad ever costs anything. Every word on the ad is an editable layer in
 > Paper, so changing copy or layout is free with either one.
 >
+> **Paper's own image generation.** The simplest: you already need Paper, so
+> there is nothing else to sign up for, and it has the top models built in
+> (Nano Banana, GPT Image and others). The free plan allows only a handful of
+> images; Paper Pro ($20 a month) gives about a hundred times more per week.
+> Paper doesn't publish an exact number. If you're building more than a few
+> ads a week, you'll want Pro.
+>
 > **Higgsfield.** Good if you already pay for it. It connects through Claude with
 > no keys to paste, and your plan's credits cover the photos. The trade: it is a
 > subscription, so you pay whether or not you use the credits, and a big batch
@@ -48,8 +55,8 @@ person asks.
 > subscription. The trade: you create an account, add a few dollars, and paste a
 > key into one file. I'll walk you through it.
 >
-> If you already have Higgsfield, use it. If you have neither, fal is the cheaper
-> way to start. Which one?"
+> If you already have Higgsfield, use it. If not, start with Paper; you
+> already have it. fal is the cheapest per image if you'll make a lot. Which one?"
 
 Prices drift. If the person asks for exact numbers, check the tool's current
 pricing rather than quoting this file.

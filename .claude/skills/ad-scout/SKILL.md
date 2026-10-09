@@ -69,7 +69,8 @@ and platform mix.
 screenshot the grid and one or two ad details per advertiser. Say in the findings
 that the sample is thin.
 
-**Neither available:** say so, and give the person the manual route in one line:
+**Neither available:** say so once, with what Apify would add (hundreds of ads
+instead of a few screenshots) and its connect line from `TOOLS.md`, then and give the person the manual route in one line:
 open the Meta Ad Library, search the competitor's page, screenshot the ads they
 like, drop them into the references folder.
 

@@ -14,10 +14,14 @@ Four skills. One brand context every one of them reads.
 |---|---|---|
 | **Claude Code** or **Claude Cowork**, opened in this folder | Runs the skills and the scripts | Your Claude plan |
 | **Paper Desktop**, connected to Claude | The ads are built there, as editable layers. Not optional | Free tier works |
-| **Higgsfield** (connected through Claude) **or** a **fal.ai** key | Makes the photograph behind each ad. Asked once per brand, with the trade-offs explained | Higgsfield credits, or about ten cents a photo on fal |
+| One image tool: **Paper's own image generation**, **Higgsfield**, or a **fal.ai** key | Makes the photograph behind each ad. Asked once per brand, with the trade-offs explained | Included in Paper (Pro for real volume), Higgsfield credits, or about ten cents a photo on fal |
 | **Python 3** | Runs the small scripts | Free |
 | Recommended: **Claude in Chrome** | Lets `/brand` read colours, fonts and your logo straight off your site | Free |
 | Optional: the **Apify** connector | Lets `/ad-scout` pull the ads your competitors are running | A few cents per pull |
+| Optional: **Firecrawl** | Cleaner reads of your website | Free tier works |
+| Optional: **Perplexity** | Faster, sourced research on reviews and competitors | Your Perplexity plan |
+
+Only Paper is required. Every other tool has a fallback, and `/brand` tells you once what you have, what you're missing, and what each one would add. Details in [TOOLS.md](TOOLS.md).
 
 ## Start here
 

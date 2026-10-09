@@ -46,6 +46,12 @@ If `avatars.md` carries no real customer quotes, say so at the top of `copy.md`
 and flag every headline `derived, not customer language`. Never present invented
 phrasing as the customer's.
 
+**If the customer language is thin** (few real quotes in `avatars.md`), do one
+round of research before proposing angles: reviews, Reddit and forum threads,
+comments on the brand's and competitors' posts. Use Perplexity if it is
+connected, otherwise Claude's built-in web search with several narrow queries.
+Quote what you find verbatim with its source, and say which tool you used.
+
 ## Step 1. Angles, then variants
 
 A campaign is **angles times variants**, not a pile of ads.

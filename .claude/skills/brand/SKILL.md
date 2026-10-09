@@ -107,6 +107,17 @@ exact structure:
 
 ---
 
+## Step 0a — Check the tools (silent, then one table)
+
+Read `TOOLS.md` at the project root. Check each tool the cheap way it
+describes, without spending anything. Then show the person one short table:
+what is connected, what is not, what each missing one would add, and the line
+to connect it. Paper is the only requirement; if it is missing, say so plainly
+and keep going with the brand setup, since nothing here needs Paper until the
+build. Record the result in `setup.json` as `"tools": {"paper": true,
+"firecrawl": false, ...}` once the brand folder exists. Never ask about a tool
+twice, and never block on an optional one.
+
 ## Step 0 — Determine intake mode
 
 **Asking this question is your entire first response**, unless the person has
@@ -144,8 +155,8 @@ for the exact wording, then write the answers to
    it and I'll need a size reference") and let the person correct it. Ask only
    when the site is genuinely ambiguous. This decides whether a base photo
    shows the product (with a size reference) or a scene with no product in it.
-2. **Which image tool do you want to use for the photography?** Higgsfield or
-   fal.
+2. **Which image tool do you want to use for the photography?** Paper's own
+   image generation, Higgsfield, or fal.
 3. **Is this your brand, a client's, or one you're practising on?** A client
    brand means every unverified offer, every named person and every competitor
    mention waits for sign-off. A practice brand means those get flagged and the
@@ -214,6 +225,11 @@ the footer — rather than reaching for the open web.
   named or implied.
 
 ### Stage C — Web research (supplements the site; never overrides it)
+
+**Which tool:** Perplexity if it is connected (one deep-research call per
+question, keep its sources). Otherwise Claude's built-in web search, several
+narrow queries per question, and fetch the pages that matter. Either way, cite
+the source for every fact you keep. Say once which one you used.
 
 External search fills gaps the site left. It never establishes who the brand is —
 Stage B already did that.
@@ -284,6 +300,9 @@ Then read `references/color-palette.md` and write
 (genuinely coloured colours) and `neutral` (blacks/whites/grays/surfaces, ordered
 dark→light); keep `primary`, `secondary`, `background` as empty arrays for
 compatibility. Uppercase 6-digit hex. Source the colours in priority order:
+
+Reading the site's pages themselves: Firecrawl if connected (markdown,
+screenshot and branding formats), otherwise the built-in web fetch.
 
 1. **Live computed styles (preferred — a real read).** If a Chrome browser is
    connected, with the homepage loaded run the entire body of

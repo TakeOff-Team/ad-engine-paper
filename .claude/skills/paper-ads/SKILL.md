@@ -73,7 +73,7 @@ Create this skill's declared inbox and output folders before use.
 ## 0. Read the setup
 
 Read `intelligence/setup.json` (written by `/brand`): `brand_type`
-(`product` or `service`), `image_tool` (`higgsfield` or `fal`), `image_model`,
+(`product` or `service`), `image_tool` (`paper`, `higgsfield` or `fal`), `image_model`,
 `advertiser` and `landing_url`, and `paper_file_id` if one exists. Missing file:
 ask the setup questions from `/brand` Step 0b and write it. Then read
 `intelligence/learnings.md` if it exists; its Rules are hard constraints and its
@@ -83,6 +83,8 @@ preflight script enforces them.
 
 Check the tools the run needs, and say what is missing in plain words:
 - **Paper:** list files or open `paper_file_id`. No connection: stop.
+- **Paper image generation** (if chosen): nothing to check beyond Paper itself.
+  Mention the plan's weekly limit once if the batch is large.
 - **Higgsfield** (if chosen): one balance call. State the credits available.
 - **fal** (if chosen): `FAL_KEY` present in `.env`.
 
@@ -247,6 +249,12 @@ run on the result before copy goes on.
   and applies the house desaturation. After two misses on a plate, or whenever a
   person is prominent in frame, the model switches as the reference says; that
   is a rule, not a suggestion.
+- **`image_tool: paper`**: follow `references/paper-images.md`. Paper
+  generates the plate inside the artboard's image zone, so there is no file to
+  upload; the result is downloaded with Paper's fill-image tool, desaturated and
+  filed with `save-plate.py`, then placed back as the zone's background like any
+  plate. Its usage counts against the person's weekly Paper limit; say how many
+  generations the block needs before starting.
 - **`image_tool: fal`**: run `generate-blank-ad.py <concept-folder> --variant
   feed_4x5`; for the 9:16, run `extend-plate.py` and pass the canvas as the
   edit source so the model fills the empty areas.
