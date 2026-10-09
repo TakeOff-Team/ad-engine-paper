@@ -236,6 +236,8 @@ def load_skill_manifests():
             data, errors = _parse_frontmatter(skill_md.read_text(encoding="utf-8"))
         except OSError as e:
             data, errors = {}, [f"unreadable: {e}"]
+        if "outputs" not in data:
+            continue  # not part of this system: other skills in a shared skills folder use their own frontmatter
         data.setdefault("outputs", [])
         data.setdefault("inboxes", {})
         data.setdefault("requires", [])
@@ -403,6 +405,13 @@ def _project_root() -> Path:
     cwd-relative paths the other commands rely on.
     """
     return Path(__file__).resolve().parents[3]
+
+
+def _brands_root() -> Path:
+    """Where brand folders live: 04-Brand/clients/ when the project already keeps
+    its clients there (an Obsidian-style vault), otherwise ./brands/."""
+    vault = _project_root() / "04-Brand" / "clients"
+    return vault if vault.is_dir() else _project_root() / "brands"
 
 
 def _get_image_ext(url: str) -> str:
@@ -1470,7 +1479,7 @@ def scaffold_brand(brand_name: str) -> Path:
     if not slug:
         raise SystemExit(f"Could not derive a folder name from {brand_name!r}")
 
-    root = _project_root() / "brands" / slug
+    root = _brands_root() / slug
     gen_dirs = generation_dirs()
     rels = [f"intelligence/{d}" for d in INTELLIGENCE_DIRS]
     rels += [f"generation/{d}" for d in gen_dirs]
@@ -1490,7 +1499,7 @@ def scaffold_brand(brand_name: str) -> Path:
         if not any(p.name != ".gitkeep" for p in d.iterdir()):
             (d / ".gitkeep").touch(exist_ok=True)
 
-    print(f"\nScaffolded ./brands/{slug}/")
+    print(f"\nScaffolded {root.relative_to(_project_root())}/")
     print(f"  intelligence/  {len(INTELLIGENCE_DIRS)} folders")
     print(f"  generation/    {len(gen_dirs)} folders (declared by the installed skills)")
     if created:

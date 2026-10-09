@@ -10,6 +10,13 @@ requires: []
 
 # Brand Setup & Brand Operating System
 
+> **Where brands live.** A brand's folder is `04-Brand/clients/<brand>/` when the
+> project has a `04-Brand/clients/` folder, otherwise `brands/<brand>/`. Every
+> `brands/<brand>/` path in this file means that folder. Read
+> `.claude/skills/brand/references/system.md` once per session: it holds the
+> rules every skill in this system follows.
+
+
 `/brand` builds and maintains a brand's **operating system** — the shared brain
 every other skill reads so anything generated is on-brand. It runs in two modes:
 
@@ -109,7 +116,7 @@ exact structure:
 
 ## Step 0a — Check the tools (silent, then one table)
 
-Read `TOOLS.md` at the project root. Check each tool the cheap way it
+Read `.claude/skills/brand/references/tools.md`. Check each tool the cheap way it
 describes, without spending anything. Then show the person one short table:
 what is connected, what is not, what each missing one would add, and the line
 to connect it. Paper is the only requirement; if it is missing, say so plainly

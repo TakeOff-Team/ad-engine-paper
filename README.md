@@ -21,7 +21,7 @@ Four skills. One brand context every one of them reads.
 | Optional: **Firecrawl** | Cleaner reads of your website | Free tier works |
 | Optional: **Perplexity** | Faster, sourced research on reviews and competitors | Your Perplexity plan |
 
-Only Paper is required. Every other tool has a fallback, and `/brand` tells you once what you have, what you're missing, and what each one would add. Details in [TOOLS.md](TOOLS.md).
+Only Paper is required. Every other tool has a fallback, and `/brand` tells you once what you have, what you're missing, and what each one would add. Details in [tools.md](.claude/skills/brand/references/tools.md).
 
 ## Start here
 
@@ -105,7 +105,7 @@ Copy and layout changes are free. Only a new photograph costs money.
 
 | Path | What it is |
 |---|---|
-| `CLAUDE.md` | How the system works and the rules it follows |
+| `CLAUDE.md` | Where the system's rules, tools and conventions live |
 | `.claude/skills/` | The skills. Each one is a self-contained folder with its scripts |
 | `brands/[brand]/` | Created by `/brand`: `intelligence/` (what the brand is) and `generation/` (what you make). Don't build it by hand |
 

@@ -14,6 +14,13 @@ optional: [Higgsfield connector or FAL_KEY for photographic plates, intelligence
 
 # Static ads, built in Paper
 
+> **Where brands live.** A brand's folder is `04-Brand/clients/<brand>/` when the
+> project has a `04-Brand/clients/` folder, otherwise `brands/<brand>/`. Every
+> `brands/<brand>/` path in this file means that folder. Read
+> `.claude/skills/brand/references/system.md` once per session: it holds the
+> rules every skill in this system follows.
+
+
 An ad here is two independent parts: a **text-free photographic plate** and an
 **editable layout** on top of it. The image model never draws a word. Every
 headline, badge, rating, button and legal line is its own layer in Paper, so a

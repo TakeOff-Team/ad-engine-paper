@@ -11,6 +11,13 @@ optional: [Apify connector for pulling ads at scale, a browser connector as the 
 
 # Ad research: find the references, when there are none
 
+> **Where brands live.** A brand's folder is `04-Brand/clients/<brand>/` when the
+> project has a `04-Brand/clients/` folder, otherwise `brands/<brand>/`. Every
+> `brands/<brand>/` path in this file means that folder. Read
+> `.claude/skills/brand/references/system.md` once per session: it holds the
+> rules every skill in this system follows.
+
+
 The build skill recreates a winning ad format with the brand's own product and
 words. That needs formats to model. Some people arrive with a folder of ads they
 love. Others have nothing. This skill is for the second group, and for anyone
@@ -70,7 +77,7 @@ screenshot the grid and one or two ad details per advertiser. Say in the finding
 that the sample is thin.
 
 **Neither available:** say so once, with what Apify would add (hundreds of ads
-instead of a few screenshots) and its connect line from `TOOLS.md`, then and give the person the manual route in one line:
+instead of a few screenshots) and its connect line from `.claude/skills/brand/references/tools.md`, then and give the person the manual route in one line:
 open the Meta Ad Library, search the competitor's page, screenshot the ads they
 like, drop them into the references folder.
 

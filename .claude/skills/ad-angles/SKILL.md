@@ -11,6 +11,13 @@ optional: [generation/ad-scout findings for category patterns, intelligence/lear
 
 # Ad copy: think like the reader, say their pain better than they can
 
+> **Where brands live.** A brand's folder is `04-Brand/clients/<brand>/` when the
+> project has a `04-Brand/clients/` folder, otherwise `brands/<brand>/`. Every
+> `brands/<brand>/` path in this file means that folder. Read
+> `.claude/skills/brand/references/system.md` once per session: it holds the
+> rules every skill in this system follows.
+
+
 > All copywriting is thinking like the other person and expressing their pains
 > better than they can, so well and so articulately that they assume you have the
 > answer.
