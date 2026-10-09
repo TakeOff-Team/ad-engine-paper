@@ -25,7 +25,15 @@ Only Paper is required. Every other tool has a fallback, and `/brand` tells you 
 
 ## Start here
 
-Clone this repo, open Claude Code in the folder, make sure Paper Desktop is open with a file open, and paste this:
+**Already have a Claude Code project you work in?** Open Claude Code there, make sure Paper Desktop is open with a file open, and paste this:
+
+```
+Install this into this project and onboard me: https://github.com/TakeOff-Team/ad-engine-paper
+
+Clone it, copy its four skills into this project's .claude/skills folder, set up a Python venv here and install its requirements, then tell me to restart Claude. After I restart, check my tools, then run /brand for https://your-brand.com and walk me through it in plain language. I'll answer with voice-to-text.
+```
+
+**Starting fresh?** Clone this repo, open Claude Code in the folder, make sure Paper Desktop is open with a file open, and paste this:
 
 ```
 Set me up: create a Python venv in this folder and install requirements.txt into it, check that Paper is connected, then run /brand for https://your-brand.com and take me through it. Explain each step in plain language. I'll answer with voice-to-text.
