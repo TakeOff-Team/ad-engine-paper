@@ -115,11 +115,31 @@ exact structure:
 
 ## Step 0 — Look before you ask
 
-The person may be running this inside a project that already knows their
-business. **Read what's there before asking anything:** the project's
-`CLAUDE.md`, `USER.md` or `README.md`, any brand, about or positioning docs, and
-any existing `brands/` (or `04-Brand/clients/`) folder. If a brand folder for
-this business already exists, this is **Incremental mode**, not a new setup.
+Most people run this inside a project they already work in: an "AI OS" or
+context folder that already knows their business. **Search it before asking
+anything or researching the web.** A brand built from the web alone when the
+person's own notes were sitting in the folder is a failed setup.
+
+1. **Read the always-loaded files:** `CLAUDE.md` (and any it points to),
+   `USER.md`, `MEMORY.md`, `README.md`.
+2. **Map the project:** list the top two levels of folders. Look inside any
+   folder whose name suggests business context: `context`, `brand`, `business`,
+   `about`, `company`, `offer`, `product`, `customer`, `audience`, `icp`,
+   `marketing`, `docs`, `knowledge`, `memory`, `notes`, `reference`,
+   `clients`, `sops`, `transcripts`.
+3. **Search by name:** grep the project's `.md`, `.txt` and `.json` files for the
+   brand's name and its domain. Skip `node_modules`, `.git` and other build
+   folders, and stop at the first few dozen hits.
+4. **Read what matters:** anything describing what they sell, who it's for,
+   their offers and prices, positioning, voice or tone guides, ICP or avatar
+   notes, testimonials, reviews, call or sales transcripts, and past ads.
+5. **Check for an existing brand folder** under `brands/` (or
+   `04-Brand/clients/`). If this business already has one, this is
+   **Incremental mode**, not a new setup.
+
+Then tell the person in one line what you found ("I found your business notes,
+your offer doc and two call transcripts, so I'll build from those plus your
+site"), or that you found nothing and will work from the site.
 
 - **The request includes a URL:** that URL is the brand. Start.
 - **No URL, but the project names the business and its site:** say so in one
@@ -127,8 +147,14 @@ this business already exists, this is **Incremental mode**, not a new setup.
 - **Neither:** ask one plain question: *"What's your website? If you don't
   have one, just tell me about the brand."*
 
-Use everything the project already says (what they sell, who it's for, how they
-talk) as Stage A input. Never ask a question the project already answers.
+Everything found here is Stage A input, and it **outranks the open web**: the
+person's own description of what they sell, who buys it and how they talk wins
+over anything a search turns up. Feed it into every file, especially
+`brand-strategy.md`, `brand-voice.md`, `avatars.md` (their customer notes and
+transcripts are the best pain words there are) and `offers.md`. List the path of
+each source you used at the end of `brand-context.md`, so it's clear where
+the brand came from. **Never ask a question the
+project already answers.**
 
 ## Step 0a — Check the tools (silent, then one or two sentences)
 
@@ -170,7 +196,7 @@ Load that exact URL first, establish from the site itself who this company is,
 and only then reach for external search to fill gaps. Work through all applicable
 stages before writing.
 
-### Stage A — Document intake (if documents / pasted content provided)
+### Stage A — Document intake (the project's own files from Step 0, plus anything pasted or shared)
 
 Read everything the user shares first. Extract: voice & positioning, personality
 & values, audience signals (psychographics, beliefs, brands they love),
