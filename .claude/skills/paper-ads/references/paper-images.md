@@ -39,7 +39,7 @@ wins.
 1. **Say the count first.** Paper does not charge per image, but generations
    count against the person's weekly limit (Free: limited; Pro: about 100x
    more). State how many plates the block needs. A yes is still required,
-   because a used-up weekly limit stops the rest of the campaign.
+   because a used-up weekly limit stops the rest of the batch.
 2. **Generate into a scratch frame, not the finished ad.** Create a frame at the
    plate's exact size beside the artboard, and request the generation as its
    background, with the same prompt rules as any plate: brand prompt modifier

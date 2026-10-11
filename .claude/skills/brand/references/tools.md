@@ -3,14 +3,13 @@
 The skills use the best tool available for each job, and never stop because a
 nice-to-have is missing. Only Paper is required. Everything else has a fallback.
 
-**Keep the tool check small.** An everyday person should see three tools, not
-seven. `/brand` shows only these, at the start of a brand's setup:
+**Keep the tool check small.** An everyday person should see two tools, not
+seven. `/brand` mentions only these, at the start of a brand's setup:
 
 | Shown | Why | If it is missing |
 |---|---|---|
 | **Paper Desktop**, connected to Claude | Builds every ad as editable layers, and makes the photos with its built-in image generation | Required. Setup carries on; the build stops and says how to connect it |
 | **Firecrawl** (optional) | Reads the brand's website cleanly | Claude's built-in web fetch. JS-heavy sites may come back thin |
-| **Apify** (optional) | Pulls competitor ads from the Meta Ad Library for `/ad-scout` | A browser connector screenshots the Ad Library, then the manual route. Dozens of ads instead of hundreds |
 
 Then one sentence: "Photos are made with Paper's built-in image generation. If
 you'd ever rather use Higgsfield or fal, just say so."
@@ -40,13 +39,13 @@ use.
   for {Brand}." If Paper isn't connected at all, give the person the two steps
   in plain words (open Paper Desktop, turn on its Claude connection) and keep
   going with everything that doesn't need it.
-- **Firecrawl, Apify, Perplexity, Claude in Chrome:** a tool counts as connected
+- **Firecrawl, Perplexity, Claude in Chrome:** a tool counts as connected
   if **either** route has it:
   1. **Directly:** the tool appears in this session's tool list.
   2. **Through Composio:** many people connect apps through Composio instead. If
      any Composio tool is in this session (names containing `COMPOSIO`), run
      `COMPOSIO_SEARCH_TOOLS` with one query per app ("scrape a web page with
-     firecrawl", "run an apify actor"). It's free, and its connection status
+     firecrawl"). It's free, and its connection status
      says which toolkits have an active connection.
   Never report a tool as missing until both routes are checked. When a tool is
   connected only through Composio, use it through Composio
@@ -62,9 +61,8 @@ optional extra as something they *could* add later, with what it would get them.
 For example:
 
 > "You're all set: Paper is open and ready, and it'll make the photos too.
-> Firecrawl is connected, so I'll read your site cleanly. One optional extra for
-> later: Apify lets me pull your competitors' ads in bulk. You don't need it
-> today."
+> Firecrawl isn't connected, which is fine. It's an optional extra that reads
+> your site a bit more cleanly, if you ever want it."
 
 Never mention Perplexity, Claude in Chrome, Higgsfield or fal here, except the
 one line that they can switch photos to Higgsfield or fal whenever they like.
@@ -77,7 +75,6 @@ them").
 
 ```bash
 claude mcp add --transport http -s user firecrawl https://mcp.firecrawl.dev/YOUR_FIRECRAWL_KEY/v2/mcp
-claude mcp add --transport http -s user apify https://mcp.apify.com
 ```
 
 Higgsfield, Perplexity and Claude in Chrome connect through Claude's own

@@ -3,7 +3,7 @@
 How the ads are arranged in Paper, how they are named, and the quirks worth
 knowing before the first artboard.
 
-## One file per brand, one row per angle
+## One file per brand, one row per reference
 
 Each brand has one Paper file. If `paper_file_id` is empty, create one
 (`create_file`, named `ad-engine · {Brand}`), open it (`open_file`), and record its
@@ -11,68 +11,53 @@ id as `paper_file_id` in `intelligence/setup.json`; never ask the person to make
 or open a file. Reuse it after that. Every session opens the file before doing
 anything else.
 
-Each campaign is a block on the canvas, with a plain text label above it
-(campaign name and date). Inside the block:
+Each batch is a block on the canvas, with a plain text label above it (the
+date). Inside the block, one row per reference:
 
 ```
-[campaign label]
+[2026-10-11]
 
-a1 · {angle name} · {avatar} · {stage}
-[ref] [a1-v1 4x5][a1-v1 9x16]   [a1-v2 4x5][a1-v2 9x16]   [a1 · Meta ad text]
-
-a2 · {angle name} · {avatar} · {stage}
-[ref] [a2-v1 4x5][a2-v1 9x16]   [a2-v2 4x5][a2-v2 9x16]   [a2 · Meta ad text]
+[ref · r1] [r1 · 4x5][r1 · 9x16]
+[ref · r2] [r2 · 4x5][r2 · 9x16]   [r2-v2 · 4x5][r2-v2 · 9x16]
+[ref · r3] [r3 · 4x5][r3 · 9x16]
 ```
 
-- **A row is an angle.** One hypothesis about why this person buys. Rows run top
-  to bottom in angle order.
-- **A row label** sits above each row as a text layer: angle id, angle name, the
-  avatar it speaks to, the awareness stage, and its status (`proposed`,
-  `validated`, `killed`).
-- **The references** the row's variants model sit at the left edge as small
-  locked image artboards named `ref · {file name}`, one per distinct reference
-  in the row. A format test where v2 models a different reference shows both.
-  They are there to compare against, never to ship.
-- **A variant is a pair:** the 4:5 artboard, then the 9:16 artboard, side by
-  side. Variants run left to right in order.
-- **The Meta ad text card** closes the row: a plain artboard holding that
-  angle's primary texts, headlines, descriptions and button from `ad-unit.json`,
-  as editable text. The person can fix a line there the same way they fix a
-  headline on an ad.
+- **A row is one reference** and the ad remade from it. Rows run top to bottom
+  in reference order.
+- **The reference** sits at the left edge as a small locked image artboard named
+  `ref · r1`, so the person can compare the original with the remake. It is
+  never shipped.
+- **An ad is a pair:** the 4:5 artboard, then the 9:16 artboard, side by side.
+  Extra versions, only when asked (`r2-v2`), follow in the same row.
 
-Spacing: 80px between the two ratios of one variant, 240px between variants,
-480px between rows, 960px between campaigns. Consistent gaps are what make the
-canvas readable at a glance; do not eyeball them.
+Spacing: 80px between the two ratios of one ad, 240px between versions, 480px
+between rows, 960px between batches. Consistent gaps are what make the canvas
+readable at a glance; do not eyeball them.
 
 ## Naming
 
-- Ad artboards: `a1-v1 · 4x5` and `a1-v1 · 9x16`.
-- Reference: `ref · {file}`. Row label: `a1 · label`. Ad text: `a1 · Meta ad text`.
+- Ad artboards: `r1 · 4x5` and `r1 · 9x16`; extra versions `r1-v2 · 4x5`.
+- Reference: `ref · r1`. Batch label: the date.
 - Layers inside an ad, by role: `plate`, `headline`, `subhead`, `cta`, `rating`,
   `badge-1`, `card-1`, `legal`, and so on. Role names are what make a later
   one-layer edit possible.
-- A held ad keeps its name and gains a suffix in brackets: `a3-v1 · 9x16 (HELD:
+- A held ad keeps its name and gains a suffix in brackets: `r3 · 9x16 (HELD:
   strap in the rail)`. The preflight lists it as HELD with the reason and never
   counts it as a pass.
 - A transparent cutout (a person or product with the background removed) is
   named `cutout-…` so the preflight knows its box is bigger than the figure.
-- A revised ad replaces its artboard in place. Do not pile up `a1-v1 (2)`.
-- A variant added after the row exists (`a1-v3`, or a CTA test the person asked
-  for) goes in its place in the row, and the Meta ad text card moves right so it
-  stays last. The card column lining up down the canvas is what makes the file
-  readable.
+- A revised ad replaces its artboard in place. Do not pile up `r1 (2)`.
 
 ## Order of work on the canvas
 
 1. Open the brand file (create it on the first run and record the id).
 2. Create or reuse the brand's design tokens: the palette from
    `color-palette.json`, the type roles from `typography.json`.
-3. Lay out the row labels and the references for the whole campaign first, so
-   the structure is visible before anything is built.
+3. Lay out the batch label and the references first, so the structure is
+   visible before anything is built.
 4. Build wireframes into their slots (SKILL step 4).
 5. Place approved plates and finish each ad (SKILL step 7).
-6. Add the Meta ad text cards.
-7. Screenshot the full canvas for the delivery report.
+6. Screenshot the full canvas for the delivery report.
 
 ## Font preflight (do this before the first wireframe)
 

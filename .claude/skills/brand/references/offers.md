@@ -56,14 +56,9 @@ no scarcity overlays, ever.]
 4. One primary offer per page. The page's CTA commits to it; don't hedge with
    two competing offers above the fold.
 
-## Selection heuristic
+## Default offer
 
-| Traffic / angle context | Primary offer |
-|---|---|
-| [Skeptical avatar name], proof-heavy page | [O1 with O4 prominent] |
-| [Object/design angle, avatar name] | [O1 or O2, with the condition] |
-| [Ease/speed angle, avatar name] | [O1, framed as ...] |
-| [Single-product / cold traffic] | [single item + O4 loud, O3 if cold] |
+[Which offer an ad uses when the reference doesn't suggest one, e.g. "O1 with O4".]
 ```
 
 ---
@@ -91,9 +86,8 @@ almost every page should carry one.
 **Stacking rules are hard constraints.** Write them as prohibitions, and cover
 every pair that could plausibly be combined. A missing rule reads as permission.
 
-**The selection heuristic maps avatars to offers.** Use the avatar names from
-`intelligence/avatars.md` so the two files interlock — that table is what a page
-build consults when it picks an offer for a given angle.
+**Say which offer is the default.** When an ad needs an offer and the reference
+doesn't suggest one, the build uses the default.
 
 ---
 

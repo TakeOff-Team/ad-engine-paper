@@ -24,8 +24,7 @@
 [Three precise words, plus one line on why each fits.]
 
 ### What does the brand stand for (and against)?
-[What it champions, and the thing it actively rejects. The full counter-position
-lives in counter-positioning.md — here, capture the values-level for/against.]
+[What it champions, and the thing it actively rejects.]
 
 ### How should people feel when they interact with the brand?
 [The intended emotional response — 3–5 precise feelings, not generic adjectives.]
@@ -72,5 +71,4 @@ take.]
   `intelligence/visual-guidelines.md`. Always write that file too.
 - `brand-strategy.md` is what downstream copy and concept work reads for *who*
   the brand is; `visual-guidelines.md` is what image skills read for *how* it
-  looks; `brand-voice.md` is *how it writes*; `counter-positioning.md` is *why
-  it wins*.
+  looks; and `brand-voice.md` is *how it writes*.

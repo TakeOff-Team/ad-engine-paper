@@ -1,10 +1,10 @@
 ---
 name: paper-ads
-description: "Build the ads in Paper: for every angle and variant from /ad-angles, wireframe the reference format with the real copy, generate only the text-free photographic plate (Paper's own image generation by default, or Higgsfield or fal if the brand switched), then place fully editable text and UI on it, in 4:5 and 9:16, laid out on the Paper canvas by angle, and measured by a preflight script before anything is called done. Also runs on a single reference with no campaign."
+description: "Remake ads you like for your brand, fully editable in Paper. Drop in one or more reference ads (screenshots are fine); for each one it keeps what makes the ad work (the format and the hook), rewrites every word for the brand from its real facts and offers, wireframes it in Paper, generates only the text-free photo (Paper's own image generation by default, or Higgsfield or fal if the brand switched), places every word as an editable layer, in 4:5 and 9:16, and measures it with a preflight script before anything is called done. Then takes feedback in plain words."
 image_model: Paper image generation (default), Higgsfield Nano Banana Pro, or fal GPT Image 2.5 Sunburst
 group: Ads
-summary: Builds every ad in Paper as an editable layout over a text-free photo, in 4:5 and 9:16, arranged by angle, measured before delivery
-version: 3.1.0
+summary: Drop in ads you like; it remakes each one for your brand in Paper, every word editable, in 4:5 and 9:16, measured before delivery
+version: 4.0.0
 outputs: [paper-ads]
 inboxes:
   paper-ads/ad-references: Ad references
@@ -12,7 +12,7 @@ requires: [Paper]
 optional: [Higgsfield connector or FAL_KEY only if the brand switched image tools, intelligence/fonts/*.ttf for the brand's real typefaces]
 ---
 
-# Static ads, built in Paper
+# Remake ads you like, built in Paper
 
 > **Where brands live.** A brand's folder is `04-Brand/clients/<brand>/` when the
 > project has a `04-Brand/clients/` folder, otherwise `brands/<brand>/`. Every
@@ -20,6 +20,10 @@ optional: [Higgsfield connector or FAL_KEY only if the brand switched image tool
 > `.claude/skills/brand/references/system.md` once per session: it holds the
 > rules every skill in this system follows.
 
+
+The person brings ads they like. This skill remakes each one for their brand:
+same format, same idea, their product, their words, their look. One finished
+ad per reference, in both sizes, every word editable.
 
 An ad here is two independent parts: a **text-free photographic plate** and an
 **editable layout** on top of it. The image model never draws a word. Every
@@ -49,8 +53,11 @@ Create this skill's declared inbox and output folders before use.
   other.
 - All claims, offers and product facts come from `brands/<brand>/intelligence/`.
   Offers come from `offers.md` by ID. Nothing is inferred from a reference ad.
-- Reference ads contribute format and structure only: never another brand's
-  copy, product, or likeness.
+- **Keep the reference's idea, rewrite every word.** A reference works because
+  of its format *and* its hook ("We got caught: someone on our team posted our
+  best deal"). Keep both: the same layout and the same idea, retold for this
+  brand in its own voice. Never use the other brand's name, product, claims,
+  people or likeness, and never copy its distinctive lines word for word.
 - Before any paid call, state the exact plates, the call count, the cost, and
   the maximum cost including one quality retry per failed plate. Get an explicit
   yes. This holds for Higgsfield credits exactly as it does for fal dollars.
@@ -71,10 +78,10 @@ Create this skill's declared inbox and output folders before use.
   downscaled screenshot is not a measurement. Product position comes from
   `product-bbox.py`; text position comes from `preflight.js`.
 - No em dashes in any line a customer reads.
-- **Never write to `offers.md`, `copy.md`, `angles.md` or any `spec.json` beyond
-  the concept you are building, and never add a concept, a variant or a file
-  the person did not ask for, without saying so in the same message.** A note
-  like "try a couple of variants" is a request to propose, not to build.
+- **Never write to `offers.md` or any `spec.json` beyond the ad you are
+  building, and never add an ad, a version or a file the person did not ask
+  for, without saying so in the same message.** A note like "try a couple of
+  versions" is a request to propose, not to build.
 - **Never say "nothing failed" or "fonts rendered correctly" unless you are
   quoting a measurement.** Paste the preflight summary line. If a check was not
   run, say it was not run.
@@ -82,15 +89,17 @@ Create this skill's declared inbox and output folders before use.
 ## 0. Read the setup
 
 Read `intelligence/setup.json` (written by `/brand`): `brand_type`
-(`product` or `service`), `image_tool` (`paper` by default; `higgsfield` or `fal` only if the person switched), `image_model`,
-`advertiser` and `landing_url`, and `paper_file_id` if one exists. Missing file:
-ask the setup questions from `/brand` Step 0b and write it. Then read
-`intelligence/learnings.md` if it exists; its Rules are hard constraints and its
-Defaults are strong preferences. Read `intelligence/preflight.json` if it
-exists; it holds the brand's own type minimums and empty-band limits, and the
-preflight script enforces them.
+(`product` or `service`), `image_tool` (`paper` by default; `higgsfield` or
+`fal` only if the person switched), `image_model`, and `paper_file_id` if one
+exists. No file: work out `brand_type` from the brand files, use Paper for
+photos, and write it. Then read `intelligence/learnings.md` if it exists; its
+Rules are hard constraints and its Defaults are strong preferences. Read
+`intelligence/preflight.json` if it exists; it holds the brand's own type
+minimums and empty-band limits, and the preflight script enforces them. Read
+`brand-voice.md`, `offers.md` and `products.json`: they are where every word
+and every fact comes from.
 
-Check the tools the run needs, and say what is missing in plain words:
+Check the tools the run needs, kindly and without warning language:
 - **Paper:** open `paper_file_id`; with no file yet, create the brand's file
   and open it, without asking. No connection at all: stop, in one friendly line.
 - **Paper image generation** (the default): nothing to check beyond Paper itself.
@@ -98,40 +107,55 @@ Check the tools the run needs, and say what is missing in plain words:
 - **Higgsfield** (only if switched): one balance call. State the credits available.
 - **fal** (only if switched): `FAL_KEY` present in `.env`.
 
-## 1. Decide what is being built
+## 1. Gather the references
 
-**Campaign mode (the default).** `/ad-angles` has written
-`generation/ad-angles/<campaign>/` with `angles.md`, `copy.md` and `ad-unit.json`.
-Every variant in `copy.md` names its angle, its reference format, and its copy,
-slot by slot. Build exactly those. Do not rewrite the copy here; a copy problem
-goes back through `/ad-angles --rewrite`.
+The references are the ads the person wants remade: files in
+`generation/paper-ads/ad-references/`, or images pasted into the chat (save
+those into that folder first). Each reference becomes one ad, numbered in
+order: `r1`, `r2`, `r3`. Extra versions of one, only when asked, are `r1-v2`,
+`r1-v3`.
 
-**Single mode.** The person dropped one reference and wants one ad, no campaign.
-Write the copy yourself by the `/ad-angles` method (their pain in their words
-from `avatars.md`, an offer by ID, a claims ledger), record it in the concept's
-`spec.json`, and treat it as angle `a1`, variant `v1`.
+**No references yet:** don't go looking for ads yourself. Picking ads worth
+copying takes the person's taste. Say, warmly:
 
-No references in `ad-references/` and no campaign: say so and offer the two ways
-forward. *"Drop in a few ads you'd like to model, or run /ad-scout and I'll pull
-what's running in your category."*
+> "Find two or three ads you love, from any brand, and drop them in here.
+> Screenshots are fine. The Meta Ad Library (facebook.com/ads/library) is the
+> easiest place: search a brand you admire and look for ads that have been
+> running for months, because brands keep paying for the ones that work."
 
-Each concept lives in its own folder:
-`generation/paper-ads/<campaign>/<angle>-<variant>/` (for example
-`autumn-launch/a2-v1/`). All scripts take that folder as their argument.
+**Batch size.** Build up to five references at a time (ten artboards). With
+more, build the first five, take the person's notes, then do the next five.
 
-**Batch size.** A campaign of five angles by two variants is twenty artboards,
-and that is the most one review pass can hold. If the campaign is bigger, build
-and present it in blocks of two or three angles, run the preflight on each
-block, and get the person's notes on a block before building the next. Do not
-build forty artboards and then review them at a third of their size.
+Each ad lives in its own folder: `generation/paper-ads/<YYYY-MM-DD>/<id>/`
+(for example `2026-10-11/r2/`). All scripts take that folder as their argument.
+
+## 1b. Write the words
+
+For each reference, work out in one line **why it works**: the format (a
+notes screenshot, a before-and-after, a big stat, a review card) and the hook
+(the idea that stops the scroll). Then write this brand's version of every line
+on it:
+
+- Same idea, same structure, same rough length per line. If the reference says
+  "We got caught", this brand's ad gets caught too, in its own words.
+- In the brand's voice from `brand-voice.md`.
+- Every fact, number, price and claim from `products.json` or `offers.md`.
+  Nothing invented, nothing borrowed from the reference. If the reference
+  leans on a fact this brand doesn't have (a review count, a discount), use a
+  true one it does have, or drop that line and say so.
+- If the reference's idea can't be told truthfully for this brand, say so and
+  suggest a close one that can.
+
+Record the words in the ad's `spec.json`. Show them with the wireframes in step
+4, so the person can change any line before anything is spent.
 
 ## 2. Read the reference and choose a route
 
-Inspect the concept's reference and record its format-defining primitives: image
+Inspect the reference and record its format-defining primitives: image
 treatment, search modules, ratings, testimonial cards, comparison states, labels,
 badges, rules, buttons and proof. Every primitive is `photographic`, `editable`,
 or an intentional documented omission. Do not replace a recognisable format
-device with generic campaign copy.
+device with generic copy.
 
 Pick one of three routes:
 
@@ -158,14 +182,13 @@ the reference has none.
 **Check the reference against the Rules before building.** A reference whose
 format needs something `learnings.md` forbids (a dark ground for a brand that
 never runs dark, a generated face for a brand that never shows one) is the wrong
-reference for this brand. Say so and pick another; `/ad-angles` should have
-caught it, and the build must not let it through.
+reference for this brand. Say so kindly and suggest swapping it.
 
 ## 3. Specify the system
 
-Write `spec.json` in the concept folder before generating. It contains the
-angle and variant ids, the reference and product inputs, the supported copy
-(copied from `copy.md`), both delivery variants, image zones, the plate prompt,
+Write `spec.json` in the ad's folder before generating. It contains the ad id,
+the reference, why it works, the product inputs, the words from step 1b, both
+delivery variants, image zones, the plate prompt,
 format primitives, route, and the photos used with their crop values.
 
 **Product plates** need two references:
@@ -180,10 +203,10 @@ SKU or a generic hand reference.
 
 **Plates with no product in them** (a service brand's proxy scene, a setting, a
 texture) leave both fields out. The plate prompt then describes the scene from
-`visual-guidelines.md` and the avatar's world, never a real person's likeness
+`visual-guidelines.md` and the customer's world, never a real person's likeness
 and never a generated screen or dashboard.
 
-**Real photos.** One photo per angle, unless the person approved the reuse.
+**Real photos.** One photo per ad, unless the person approved the reuse.
 Read each file's real orientation (EXIF rotation changes the width and height
 that a quick listing reports) before any crop maths. Record the file, the crop
 and the reason in `spec.json`.
@@ -202,12 +225,12 @@ claims.
 
 ## 4. Build the wireframe in Paper, before photography
 
-Read `references/paper-canvas.md` first. It holds the by-angle canvas layout, the
-artboard naming, the font preflight, how a photo is cropped in Paper, and the
+Read `references/paper-canvas.md` first. It holds the canvas layout (one row
+per reference), the artboard naming, the font preflight, how a photo is cropped in Paper, and the
 Paper quirks that cost time.
 
 Make one wireframe artboard per ratio using the real copy and component systems,
-placed in its angle's row. It must work with images hidden: hierarchy, lanes, UI,
+placed in its reference's row. It must work with images hidden: hierarchy, lanes, UI,
 proof and CTA remain clear and editable. Build one correct repeated component and
 duplicate it; vary content and placement, not type, padding, box size or line
 style unless the reference specifically calls for it.
@@ -220,26 +243,27 @@ leaders and containers clear of faces, product labels and critical copy.
 **Run the preflight on the wireframes** (step 8 explains the command). It
 catches zone, overlap and type-size problems before a photo exists, when they
 are cheapest to fix. Then screenshot each wireframe at scale 1 and save it in
-the concept folder as `<id>-wireframe-<ratio>.png`. A run with no wireframe
+the ad's folder as `<id>-wireframe-<ratio>.png`. A run with no wireframe
 screenshots on disk skipped this step.
 
-When a campaign has several concepts, wireframe the block before the cost gate,
-so the person approves one number for the block and sees the layouts first.
+Wireframe the whole batch before the cost gate, then show the wireframes and
+each ad's words together with one cost number. The person can change any line
+or swap a reference before a cent is spent.
 
 ## 5. Generate only the photography
 
 Skip this section for the layout-only route.
 
-State the cost and get a yes (Non-negotiables). Then, once per ratio per concept:
+State the cost and get a yes (Non-negotiables). Then, once per ratio per ad:
 
 **Generate the 4:5 first, approve it, then derive the 9:16 from it.** Fresh
 9:16 generations fail far more often than 4:5 ones (Dream Recovery: 4:5 passed
 first time five of five, 9:16 one of four, and every retry credit went to 9:16).
 So the 9:16 is built by geometry, not by prompt:
 
-1. `product-bbox.py <concept-folder> --variant feed_4x5` records where the
+1. `product-bbox.py <ad-folder> --variant feed_4x5` records where the
    product sits in the approved 4:5 (auto on a plain ground, `--bbox` on a scene).
-2. `extend-plate.py <concept-folder>` scales and places that 4:5 inside a
+2. `extend-plate.py <ad-folder>` scales and places that 4:5 inside a
    1080×1920 canvas so the product lands inside the product stage and clear of
    the rail, and writes the canvas, a mask, and the 9:16 product box into
    `spec.json`. The geometry is checked before any credit is spent.
@@ -265,7 +289,7 @@ run on the result before copy goes on.
   filed with `save-plate.py`, then placed back as the zone's background like any
   plate. Its usage counts against the person's weekly Paper limit; say how many
   generations the block needs before starting.
-- **`image_tool: fal`**: run `generate-blank-ad.py <concept-folder> --variant
+- **`image_tool: fal`**: run `generate-blank-ad.py <ad-folder> --variant
   feed_4x5`; for the 9:16, run `extend-plate.py` and pass the canvas as the
   edit source so the model fills the empty areas.
 
@@ -297,8 +321,8 @@ retry, not shrunken type or a Paper patch.
 
 Show the selected 4:5 and 9:16 plates with their product bounds (from
 `product-bbox.py`, never estimated by eye) and safe-zone results. Do not place
-copy on a plate until the person approves it, and that includes every retry. In
-a campaign, show all plates of the block together and take one approval, noting
+copy on a plate until the person approves it, and that includes every retry. Show
+all plates of the batch together and take one approval, noting
 any they reject. A held plate is reported the moment it is held, with the
 measured reason, not in the final report.
 
@@ -346,16 +370,16 @@ draw the brand face, the order is fixed: first the stand-in `typography.json`
 names, then, only if that is unavailable too, the closest face Paper has, and
 in both cases the person is told in one line and `typography.json` is updated
 to say what was used. Never a third font nobody chose. Run `compose-text.py` on
-the concept to produce the embedded-font SVG as the exact visual reference
+the ad to produce the embedded-font SVG as the exact visual reference
 whenever the brand face itself did not render; when it did, the script is
 optional.
 
 ## 8. Final preflight: the script, then your eyes
 
-Run the preflight on every artboard of the block, from the project root:
+Run the preflight on every artboard of the batch, from the project root:
 
 ```bash
-node .claude/skills/paper-ads/preflight.js --file <paper_file_id> --only a1-v1,a1-v2 --campaign brands/<brand>/generation/paper-ads/<campaign> --config brands/<brand>/intelligence/preflight.json --out brands/<brand>/generation/paper-ads/<campaign>/preflight.json
+node .claude/skills/paper-ads/preflight.js --file <paper_file_id> --only r1,r2 --campaign brands/<brand>/generation/paper-ads/<YYYY-MM-DD> --config brands/<brand>/intelligence/preflight.json --out brands/<brand>/generation/paper-ads/<YYYY-MM-DD>/preflight.json
 ```
 
 `--campaign` lets it read each variant's product box from `spec.json`, so text
@@ -373,18 +397,17 @@ look, at scale 1, never smaller, for the things it cannot measure:
 - repeated components that read as one deliberate system;
 - the image treatment intentionally seamless or intentionally panelled;
 - the 9:16 read at phone scale with the UI chrome imagined on top;
-- every claim on the artboard present in the concept's claims ledger;
+- every fact and claim on the artboard traceable to `products.json` or `offers.md`;
 - the format's own primitives present and editable;
 - no em dash anywhere;
-- the pair in its angle's row, 4:5 then 9:16, named per the canvas spec;
-- no two concepts in the campaign read as the same ad (same packshot, same
-  ground, same stack). Two angles that look alike muddy both tests; change the
-  photo or the format on one of them;
+- the pair in its reference's row, 4:5 then 9:16, named per the canvas spec;
+- no two ads in the batch read as the same ad (same packshot, same ground, same
+  stack); if two references would come out alike, vary the photo on one;
 - a notes, chat or phone format carries no device chrome (status bar, clock,
   battery) that would make a written note read as a real screenshot.
 
 Correct any failure in Paper, re-run the script, and only then call the block
-complete. **Never present an ad that fails.** Hold it back and say which one and
+done. **Never present an ad that fails.** Hold it back and say which one and
 why. Paste the script's summary line in the delivery note.
 
 ## 9. Deliver
@@ -392,55 +415,44 @@ why. Paste the script's summary line in the delivery note.
 Export each artboard from Paper at **scale 1**, no more than six artboards per
 export call, and verify every file is 1080 wide before moving on; Paper's default
 scale has changed mid-run and produced 2160-wide files. Move the files out of
-Downloads into the concept folder as `<angle>-<variant>-<ratio>.png`.
+Downloads into the ad's folder as `<id>-<ratio>.png`.
 
-Then report, in plain language:
+Then report, short and plain:
 
-- the Paper file and how the canvas is organised (one row per angle);
-- per angle: the variants built, the reference each one modelled, what the
-  variant tests;
-- the preflight summary line, and the WARNs you chose to leave, with why;
-- where the Meta ad text for each angle is (`ad-unit.md`, and the text card at
-  the end of each row in Paper);
+- where the ads are in Paper (one row per reference);
+- per ad: which reference it remade and the one line on why that reference works;
+- the preflight summary line, and any WARN you left, with why;
 - what was spent, against what was quoted;
-- which fonts Paper drew and how that was proven, any fallback, intentional
-  format omissions and any ratio-specific simplification;
-- anything held back.
+- anything held back, and any font stand-in.
 
-Close with the two things the person can do next: edit anything in Paper for
-free, or tell you the verdicts.
+Close with what they can do next: click any word in Paper and change it for
+free, or just tell you what they like and don't, in plain words. Voice-to-text
+is perfect.
 
-## 10. Verdicts, and what the brand learns
+## 10. Feedback, and what the brand learns
 
-The person reviews in Paper and answers in a sentence. Accept any of: `keep
-a1-v2`, `kill a3-v1: too dark`, `change a2-v1: shorter headline`, or a note about
-the whole batch.
+The person reacts in their own words: "love r2", "r1's headline is too long",
+"r3 is too dark", "make another version of r2 with a different headline".
+Handle it without making them use any special phrasing:
 
-- **Keep:** mark the concept `approved` in its `spec.json` and set its angle to
-  `validated` in the campaign's `angles.md`. A validated angle gets more variants
-  next campaign.
-- **Change:** a copy note goes to `/ad-angles --rewrite` and the one layer is
-  updated in Paper. A layout note is fixed in Paper. A note that applies to every
-  ad ("subheads bigger") is applied to every ad, then written as a Default. Only
-  a note about the photograph itself costs a plate, and that goes through the
-  cost gate. A note asking for more variants is answered with a proposal, and the
-  new variant is built only on a yes; it goes into the row before the Meta ad
-  text card, and the card moves right.
-- **Kill:** every variant of an angle killed means the angle is `killed`, with
-  the reason. Generalise the reason and file it in `intelligence/learnings.md`:
-  an objective defect (wrong pack, an unsupported claim, a compliance problem)
-  under `## Rules`, permanent; a matter of taste under `## Defaults`, a strong
-  preference a later batch may still test against. Quote the person's words and
-  date the line. Confirm a new Default in one line before writing it.
+- **A words note:** rewrite the line (same rules as step 1b) and update that one
+  layer in Paper. Free.
+- **A layout note:** fix it in Paper. Free. A note that applies to every ad
+  ("make the buttons bigger") is applied to every ad.
+- **A photo note:** only this costs money. Quote it and get a yes first.
+- **"Another version":** propose what would change in one line, and build it as
+  `r2-v2` only on a yes.
+- **Love it:** mark it `approved` in its `spec.json`.
+- **Don't like it, with a reason:** fix it or drop it, and **remember the
+  reason** in `intelligence/learnings.md` so the next batch doesn't repeat it.
+  An objective problem (wrong pack, an unsupported claim) goes under
+  `## Rules`, permanent; a matter of taste ("too dark") under `## Defaults`.
+  Quote their words and date the line. Tell them in one line: "Got it, I'll
+  remember that for next time."
 - **A Default with a number in it becomes a check.** "Subheads at least 42px"
   goes into `intelligence/preflight.json` as `"min_px": {"subhead": 42}`; "no
   empty band under 9:16 ads" lowers `"max_empty_bottom"`. The next run fails on
   it instead of hoping.
-- A kill with no reason is recorded, not turned into a rule. Ask once.
-- Learnings carried over from another system's verdicts (a previous tool, an
-  older folder) are shown to the person as one block, with a count, and
-  confirmed before they bind. Until then they are marked `proposed`.
 
-`/ad-angles` and this skill both read `learnings.md` and `preflight.json` at the
-start of every run. Those two files are how the second batch is better than
-the first.
+This skill reads `learnings.md` and `preflight.json` at the start of every run.
+Those two files are how the second batch is better than the first.

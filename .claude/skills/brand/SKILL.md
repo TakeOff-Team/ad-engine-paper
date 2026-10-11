@@ -1,6 +1,6 @@
 ---
 name: brand
-description: Run when the user wants to set up their brand, add their brand to the project, provides a website URL / brand guidelines / positioning doc for onboarding, OR says "add this to my brand context" (a product, image, doc, logo, font, or fact to fold into an existing brand). Works from a website URL, brand documents, or a manual description. Builds the brand's operating system under brands/[brand-name]/intelligence/: strategy, counter-positioning, colour palette + typography + logo read off the live site, brand voice, a portable context capsule, and a full product catalog index — plus incrementally adds new products/assets/facts to an existing brand at any time. Everything downstream (static ads) is personalised to the brand from the start. Multiple brands can be set up and run side-by-side.
+description: Run when the user wants to set up their brand, add their brand to the project, provides a website URL / brand guidelines / positioning doc for onboarding, OR says "add this to my brand context" (a product, image, doc, logo, font, or fact to fold into an existing brand). Works from a website URL, brand documents, or a manual description. Builds the brand's operating system under brands/[brand-name]/intelligence/: strategy, colour palette + typography + logo read off the live site, brand voice, real offers, a portable context capsule, and a product catalog with photos — plus incrementally adds new products/assets/facts to an existing brand at any time. Everything downstream (static ads) is personalised to the brand from the start. Multiple brands can be set up and run side-by-side.
 group: Core
 summary: Point it at a URL, get a brand brain. Run this first. Also folds new products, images, docs and facts into an existing brand at any time
 version: 1.0.0
@@ -41,13 +41,11 @@ A brand has two compartments and `/brand` creates both (Step 2). Everything
 brands/[brand-name]/intelligence/
   visual-guidelines.md     ← visual identity + PROMPT MODIFIER  (brand-detection marker)
   brand-strategy.md        ← personality/values, audience, competitive landscape
-  counter-positioning.md   ← counter-position + value proposition package
   brand-voice.md           ← how the brand writes (copy layer)
   brand-context.md         ← one-page portable capsule (paste into any AI tool)
-  avatars.md               ← the 3–5 named people the brand sells to (Step 6e)
-  offers.md                ← the closed list of offers any page may use (Step 6e)
-  setup.json               ← brand type, image tool (Paper unless switched), relationship, advertiser, link (Step 0b)
-  learnings.md             ← rules and defaults earned from reviews (written by /paper-ads, not here)
+  offers.md                ← the closed list of real offers any ad may use (Step 6e)
+  setup.json               ← brand type, image tool (Paper unless switched), Paper file id, tools
+  learnings.md             ← rules and preferences earned from feedback (written by /paper-ads, not here)
   color-palette.json       ← structured colour tokens (accent / neutral · name·hex·use)
   typography.json          ← typefaces (role·family·source·weights) + design-system pointer
   products.json            ← product CATALOG index { brand, updated, products:[…] }
@@ -57,10 +55,9 @@ brands/[brand-name]/intelligence/
   context-uploads/         ← RAW archive of every "add this to my brand context" drop ([YYYY-MM-DD]-[slug].ext)
 ```
 
-> **`avatars.md` and `offers.md` are load-bearing downstream.** `/ad-angles`
-> writes every angle and headline for the avatars in `avatars.md`, in their own
-> pain words, and takes every offer from `offers.md` — it is forbidden from
-> inventing an offer. Formats: `references/avatars.md`, `references/offers.md`.
+> **`offers.md` is load-bearing downstream.** `/paper-ads` takes every price,
+> code and offer from it and is forbidden from inventing one. Format:
+> `references/offers.md`.
 
 > **`context-uploads/` is the raw-input trail, not a derived doc.** Every time the
 > user drops more context into an existing brand, the material is archived here
@@ -84,10 +81,8 @@ folders so a brand's shape is complete from day one:
 
 ```
 brands/[brand-name]/generation/
-  ad-scout/             ← /ad-scout (optional): category ad pulls + findings
-  ad-angles/                 ← /ad-angles: angles, copy and Meta ad text per campaign
-  paper-ads/        ← /paper-ads: the built ads, per campaign and concept
-    ad-references/              ← drop winning-ad format refs here
+  paper-ads/        ← /paper-ads: the built ads, one folder per reference ad
+    ad-references/              ← drop the ads you want remade here
 ```
 
 The `*-references/` and `*-uploads/` folders are **inboxes** — a human drops files
@@ -105,93 +100,56 @@ remove one and nothing else breaks. `python3 .claude/skills/brand/brand.py
 exact structure:
 
 - `references/brand-strategy.md` — structure of `brand-strategy.md`
-- `references/counter-positioning.md` — the counter-positioning framework (Step 4)
 - `references/color-palette.md` — structure of `color-palette.json`
 - `references/typography.md` — structure of `typography.json`
 - `references/brand-voice.md` — structure of `brand-voice.md`
 - `references/brand-context.md` — structure of the portable capsule
-- `references/setup.md` — structure of `setup.json`, the wording of the setup questions, and how to switch image tools
+- `references/setup.md` — structure of `setup.json`, and how to switch image tools
 
 ---
 
-## Step 0a — Check the tools (silent, then three lines)
+## Step 0 — Look before you ask
 
-Read `.claude/skills/brand/references/tools.md`. Check the tools the cheap way it
-describes, without spending anything. Tell the person about **only three tools**, in two or
-three friendly sentences (no table, no warning signs; wording in `tools.md`): **Paper** (required: the ads are built there and it makes the
-photos), **Firecrawl** (optional: reads the website more cleanly) and **Apify**
-(optional: pulls competitor ads for `/ad-scout`). Lead with what's ready. A missing optional one is "an optional extra you could add
-later", with what it would add. Check Composio as well as direct connections
-before calling anything missing. Then one sentence: "Photos are made with Paper's built-in image generation.
-If you'd ever rather use Higgsfield or fal, just say so."
+The person may be running this inside a project that already knows their
+business. **Read what's there before asking anything:** the project's
+`CLAUDE.md`, `USER.md` or `README.md`, any brand, about or positioning docs, and
+any existing `brands/` (or `04-Brand/clients/`) folder. If a brand folder for
+this business already exists, this is **Incremental mode**, not a new setup.
 
-Do not list anything else. Perplexity and Claude in Chrome are checked silently
-and used when present, never shown. Higgsfield and fal are not checked unless
-the person asks to switch.
+- **The request includes a URL:** that URL is the brand. Start.
+- **No URL, but the project names the business and its site:** say so in one
+  line ("I can see you run Acme, acme.com, so I'll set that up") and start.
+- **Neither:** ask one plain question: *"What's your website? If you don't
+  have one, just tell me about the brand."*
+
+Use everything the project already says (what they sell, who it's for, how they
+talk) as Stage A input. Never ask a question the project already answers.
+
+## Step 0a — Check the tools (silent, then one or two sentences)
+
+Read `.claude/skills/brand/references/tools.md` and check the tools the cheap way
+it describes, without spending anything. Check Composio as well as direct
+connections before calling anything missing. Then tell the person, in one or two
+friendly sentences (no table, no warning signs; wording in `tools.md`): **Paper**
+is where the ads get built and it makes the photos; **Firecrawl**, if connected,
+reads their site more cleanly, and if not, it's an optional extra for later. Add:
+"If you'd ever rather make photos with Higgsfield or fal, just say so."
+
+Mention nothing else. Perplexity and Claude in Chrome are checked silently and
+used when present. Higgsfield and fal are not checked unless the person asks to
+switch.
 
 If Paper is connected but no file is open, create the brand's Paper file and
 open it yourself, then say so in one line. If Paper isn't connected at all, give
-the two plain steps to connect it and keep going with the brand setup, since
-nothing here needs Paper until the build. Record the result in `setup.json` as
-`"tools": {"paper": true, "firecrawl": false, "apify": true, "perplexity": true,
-"chrome": false}` once the brand folder exists. Never ask about a tool twice,
-and never block on an optional one.
+the two plain steps to connect it and keep going, since nothing here needs Paper
+until the build. Record the result in `setup.json` under `tools` once the brand
+folder exists. Never ask about a tool twice, and never block on an optional one.
 
-## Step 0 — Determine intake mode
-
-**Asking this question is your entire first response**, unless the person has
-already answered it in their request ("intake mode: both", a URL plus a folder
-of documents, "here are my brand docs"). Then say which mode you understood in
-one line and move on; do not ask again. Otherwise output the four options
-below exactly as listed — no preamble, no lead-in, no narrating that you are
-about to ask. Then stop and wait for the reply: do not scaffold folders, fetch
-the site, or research anything until the user has picked an intake mode.
-
-> "How would you like to set up your brand? I can work from:
-> 1. **A website URL** — I'll read that exact site, then research around it
-> 2. **Brand documents** — paste or share your brand guidelines, style guide, positioning doc, deck, or any written materials
-> 3. **Both** — a URL plus supporting documents for the most complete picture
-> 4. **Neither yet** — tell me about the brand and I'll build it from what you share
->
-> Which works best for you?"
-
-Adapt the research stages below to the answer. All modes produce the same
-`intelligence/` output — they just draw from different sources.
-
----
-
-## Step 0b — Setup questions (brand type, relationship, advertiser)
-
-Ask these together, in your **second** response, right after the person answers
-the intake question and before the research starts. Read `references/setup.md`
-for the exact wording, then write the answers to
-`./brands/[brand-name]/intelligence/setup.json` once the brand folder exists
-(Step 2).
-
-1. **What does the brand sell?** Do not ask this when the site answers it. A
-   store selling masks is a product brand; a course is a service brand. Say
-   what you concluded in one line ("Physical product, so the photos will show
-   it and I'll need a size reference") and let the person correct it. Ask only
-   when the site is genuinely ambiguous. This decides whether a base photo
-   shows the product (with a size reference) or a scene with no product in it.
-2. **Is this your brand, a client's, or one you're practising on?** A client
-   brand means every unverified offer, every named person and every competitor
-   mention waits for sign-off. A practice brand means those get flagged and the
-   build goes on. Record it as `relationship`.
-3. **Whose ad account runs these, and where do they send people?** The
-   advertiser (the brand itself, or an affiliate or agency running on its
-   behalf) and the exact landing link, including any affiliate or tracking
-   parameters. Every piece of ad text points at that link. Never assume the
-   website's own URL.
-
-**The image tool is not a question.** Every brand starts on Paper's own image
-generation (`image_tool: paper`). The tool check already told the person they
-can switch to Higgsfield or fal; if they ask, use the switching section of
-`references/setup.md` to explain the trade and change the one line.
-
-Do not ask anything else here. Everything else is found on the site or asked at
-the step that needs it. Write `brand_type`, `image_tool` (`paper`),
-`relationship`, `advertiser` and `landing_url` to `setup.json`.
+**No setup questions.** Work out whether the brand sells a physical product or
+a service from the site and say what you concluded in one line ("Physical
+product, so the photos will show it with a size reference"); the person can
+correct it. Every brand starts on Paper's own image generation. Write
+`brand_type` and `image_tool: paper` to `setup.json`.
 
 **A decision made once is not reopened.** If you told the person how a case
 will be handled ("I'll only use offers that are live on the site"), do not ask
@@ -266,7 +224,7 @@ When the site and a search result disagree, the site wins.
 
 Then search — disambiguated — for what the site didn't answer:
 
-- founding story, mission — personality, values, the counter-position
+- founding story, mission — personality, values, what it stands against
 - `[brand] vs [competitor]`, `best [category] brands` — the competitive landscape
 - reviews, Reddit / Substack / Amazon — customer language, pain points, what they tried before
 - font / typeface names, hex codes, brand colours — though the live DOM read in
@@ -275,7 +233,6 @@ Then search — disambiguated — for what the site didn't answer:
 - design system, brand guidelines, style guide, press kit — also try the brand's
   own `/design`, `/brand`, `/guidelines`, `/styleguide`, `/press` paths
 - design agency, rebrand — often unlocks precise language about the identity
-- **Meta Ad Library** — the creative formats, messaging angles, and visual treatment they run now
 
 Skip this stage if the brand has no public presence beyond its own site — note
 the gap instead. A thin brand that is correct beats a rich brand built on the
@@ -285,8 +242,7 @@ wrong company.
 
 Identify 2–3 direct competitors and 1–2 indirect ones (different category, same
 job-to-be-done). For each, note one specific visual or positioning choice that
-sets this brand apart. If no competitors are established yet, ask: "Which brands
-do you admire or position against?"
+sets this brand apart. If none are clear, note the gap; don't ask.
 
 ---
 
@@ -420,18 +376,6 @@ the Step 8 report so the user knows to drop in a better file if they have one.
 
 ---
 
-## Step 3 — Counter-positioning (sub-skill)
-
-After `brand-strategy.md` and **before** product collection, run the
-counter-positioning framework. Read `references/counter-positioning.md` in full
-and follow it exactly — a seven-phase process ending in the Phase 7 package
-written to `./brands/[brand-name]/intelligence/counter-positioning.md`. Honour
-its behavioural rules (always name what the brand stands against; never accept a
-value proposition without a "without" clause). Briefly summarise the recommended
-counter-position and value proposition in chat, then continue.
-
----
-
 ## Step 4 — Write visual-guidelines.md (the brand-detection marker)
 
 Write `./brands/[brand-name]/intelligence/visual-guidelines.md` — the file the
@@ -503,8 +447,8 @@ last, after all research, and make it exact.
 Read `references/brand-voice.md`, then write
 `./brands/[brand-name]/intelligence/brand-voice.md` — how the brand *writes*,
 the copy counterpart to the prompt modifier. Ground every rule in real copy from
-the site, product pages, and ad captions (quote it). This is what `/ad-angles`
-reads for headlines and ad copy. For
+the site, product pages, and ad captions (quote it). This is what `/paper-ads`
+reads to write each ad's words. For
 a brand with little copy, note the gap and build from the founder's own words.
 
 ---
@@ -516,16 +460,11 @@ index — the source of truth every product-facing skill reads.
 
 ### 6a — Choose products
 
-**If a URL was provided**, ask:
-
-> "Which products would you like in your catalog? Paste the direct product page
-> URL for each — this grabs exactly the products you choose, with all their
-> images. Or say 'best-sellers' and I'll grab the top sellers automatically."
-
-Wait for explicit URLs or explicit "best-sellers" — don't guess or auto-scrape.
-A spoken answer ("the performance sleep mask") is explicit enough: match it to
-the product on the site, say which one you matched in one line, and continue.
-Voice-to-text garbles names; confirm, don't block.
+**If a URL was provided**, don't make the person pick from a list. If they
+named a product, match it on the site, say which one in one line (voice-to-text
+garbles names; confirm, don't block), and scrape its page. Otherwise grab the
+best-sellers automatically and say which ones you took; they can add others any
+time with "add this to my brand context".
 
 **If no URL**, tell the user the folder is ready and to drop images into
 `intelligence/product-images/` named `[slug]-01.jpg`, `[slug]-02.jpg` (lowercase,
@@ -587,59 +526,22 @@ Catalog: [N] products, [M] images.
   …
 ```
 
-### 6e — Avatars and offers
+### 6e — Offers
 
-The two files everything commercial reads. They come last in the research chain
-because both depend on the catalog: offers need real prices and SKUs, avatars
-need to know what's actually sold.
-
-Read `references/avatars.md`, then write
-`./brands/[brand-name]/intelligence/avatars.md` — three to five named people,
-each with a concrete vignette, **verbatim pain words**, wants, objections with
-their rebuttals, an emotional driver, and the page point of view that suits them.
-Draw the language from reviews, ad-library comments, and the brand's own segment
-copy. Avatars are distinct on *why they buy*, never on demographics alone.
-
-**Ask for the customer's own words before you write the avatars.** One message,
-plain language:
-
-> "Two things that make the ads far better. First: what are the five to ten
-> things your customers complain about or want most, in the words they actually
-> use? Talk it out, voice-to-text is perfect, messy is fine. Second: if you have
-> call transcripts, a review export, support tickets or DMs, drop them in and
-> I'll pull the exact phrases."
-
-Archive anything they drop under `context-uploads/` (Incremental mode, Step A)
-and mine it: quote lines verbatim, note where each came from, and count how many
-different people said the same thing. A pain three customers named outranks one
-the founder guessed. In `avatars.md`, tag each pain word with its source
-(`review`, `call`, `founder`, `inferred`), and where the founder's list and the
-mined language overlap, say so: that overlap is the strongest angle the brand
-has. If they have nothing to share, write from the public reviews, and mark the
-gap rather than presenting a guess as a finding.
-
-Then read `references/offers.md` and write
+Read `references/offers.md` and write
 `./brands/[brand-name]/intelligence/offers.md` — the closed list of offers any
-page may use, with IDs (`O1`, `O2`, …), stacking rules, and a selection heuristic
-mapping the avatar names above to a primary offer. Source every price, code, term
-and guarantee from the catalog, the live storefront, or the user directly.
+ad may use, with IDs (`O1`, `O2`, …) and stacking rules. Source every price,
+code, term and guarantee from the catalog, the live storefront, or the person
+directly. It comes after the catalog because offers need real prices.
 
-**The default CTA must pass the stranger test.** Someone who has never seen the
-site has to know what happens when they tap. Write it in plain words ("Start the
-course", "See the course", "Join the course") and record the site's own phrase
-beside it as an alternate. A brand phrase ("Build my AI Operating System") is
-positioning, not a button.
+**The default button must pass the stranger test.** Someone who has never seen
+the site has to know what happens when they tap. Write it in plain words ("Shop
+now", "Start the course") and record the site's own phrase beside it.
 
-**Named people need permission on record.** For every customer, member or case
-study the research names as proof, record whether the brand has permission to
-use the name in paid ads, or `permission: unknown`. `/ad-angles` holds back any
-name marked unknown until the person answers.
-
-**Never invent an offer, a price, a code, or a guarantee.** Where the research is
-ambiguous — a bundle exists but its price isn't visible, a guarantee is implied
-but never stated — ask the user rather than filling the gap. Everything
-downstream treats this file as a promise the brand will honour. A brand with one
-product and free shipping has a two-offer library, and that is a complete answer.
+**Never invent an offer, a price, a code, or a guarantee.** Where the site is
+ambiguous, leave it out rather than guess, and say so in the report. A brand
+with one product and free shipping has a two-offer library, and that is a
+complete answer.
 
 ---
 
@@ -656,48 +558,28 @@ context changes.
 
 ## Step 8 — Report back
 
-Give the user:
+Keep it short and encouraging: two or three sentences plus a short list of
+what now exists.
 
-1. **Brand name** and intake mode used
-2. **Positioning** — the recommended counter-position + value proposition
-3. **Colour palette** — the accent/neutral colours read into `color-palette.json`;
-   note it's a best-effort first pass to edit, and flag any uncertain colour
-4. **Typography** — heading + body fonts, their source, which open-license fonts
-   were auto-downloaded, which licensed faces the user must drop in, and any
-   design system found. Say in one line that the build step proves the fonts in
-   Paper before the first ad, so there is nothing for them to verify now.
-5. **Logo** — whether it was found automatically (and from where — JSON-LD,
-   header, or favicon-only) or still needs a manual drop into `logos/`
-6. **Catalog** — number of products and images indexed (or note manual)
-7. **Avatars and offers** — how many of each, named; flag any offer field you had
-   to ask about or leave open, and any avatar resting on inference rather than
-   real customer language
-8. **Setup** — the brand type, the image tool, the advertiser and the landing
-   link on file, in one line
-9. **Carried-over learnings** — if you seeded `learnings.md` from the person's
-   earlier verdicts (an older tool's rules file, a notes doc), list them as one
-   block with a count and ask for one yes before they bind. Until then they are
-   marked `proposed`.
+1. **Brand name** and where you got it from (the site, the project's own files)
+2. **Colours, fonts and logo** — what you found; flag anything you're unsure of
+   in plain words. Say the build step checks the fonts in Paper, so there's
+   nothing to verify now. Licensed fonts the person must add go here.
+3. **Products** — how many, with photos
+4. **Offers** — the real offers on file, and anything left out because the site
+   was unclear
 
-Keep it to two or three sentences plus a short list — what now exists, then what
-the user does next:
+Then what happens next, in plain words:
 
-- **References.** Look first, then ask. If the person pointed you at a folder
-  of their own material, check it for reference ads before asking anything, and
-  say what you found (*"I found six ads in your references folder. Want me to
-  use those, add more, or pull what your category is running?"*). Only when
-  nothing is on hand ask plainly: *"Do you already have ads you'd like to
-  model? Drop them into `generation/paper-ads/ad-references/`. If you don't,
-  run `/ad-scout` and I'll pull what's running in your category so you can
-  pick."* Never run the research unasked; someone with references they love
-  does not need it.
-- **`/ad-angles`** — turns the avatars, offers and references into four to five
-  angles with two variants each, the copy for every one, and the Meta ad text.
-- **`/paper-ads`** — builds them in Paper, laid out by angle, in 4:5 and
-  9:16, with every word editable.
-- Add more products, images or facts any time with "add this to my brand
-  context".
-- Verify the fonts, and drop a logo into `logos/` if one is still missing.
+> "Next: find two or three ads you love, from any brand. Screenshots are fine.
+> Drop them into `generation/paper-ads/ad-references/` (or just paste them
+> here), then run `/paper-ads` and I'll remake each one for your brand, fully
+> editable in Paper."
+
+If the project already has ads in that folder, say how many you found instead.
+Add, in one line, where good ads are easy to find: the Meta Ad Library
+(facebook.com/ads/library: search a brand you admire and look at ads that have
+run for months), Pinterest, or ads that stopped their own scroll.
 
 ---
 
@@ -749,7 +631,7 @@ Then act only on the new item and update the file(s) it belongs to:
   `brand.py --fetch-fonts "[Family]"`; update `typography.json` if it's a new
   brand face.
 - **A brand fact / document / correction:** update the specific file it belongs
-  to — `brand-strategy.md`, `counter-positioning.md`, `visual-guidelines.md`,
+  to — `brand-strategy.md`, `visual-guidelines.md`, `offers.md`,
   `brand-voice.md`, `color-palette.json`, or `typography.json` — and nothing else.
 
 ### Step C — Regenerate the capsule

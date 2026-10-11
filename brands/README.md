@@ -4,7 +4,7 @@ Your brand folders go here, one folder per brand.
 
 Don't create folders manually. Run `/brand` from this project root and Claude Code
 will research the brand, build its operating system (visual guidelines, strategy,
-positioning, voice, colour palette, typography), index the product catalog, and
+voice, colour palette, typography), index the product catalog, and
 scaffold the right folder structure for you. You can also say "add this to my brand
 context" any time to fold a new product, asset, or fact into an existing brand — the
 raw drop is archived under `intelligence/context-uploads/` and its substance is
@@ -18,24 +18,20 @@ brands/
     intelligence/
       visual-guidelines.md   (visual identity + prompt modifier — brand-detection marker)
       brand-strategy.md      (personality, audience, competitive landscape)
-      counter-positioning.md (counter-position + value proposition)
       brand-voice.md         (how the brand writes)
       brand-context.md       (one-page portable capsule for any AI tool)
       color-palette.json     (structured colour tokens)
       typography.json        (typefaces + design-system pointer)
       products.json          (product catalog index)
-      avatars.md             (the named people the brand sells to, in their own words)
       offers.md              (the closed list of offers any ad may use)
-      setup.json             (brand type + which image tool this brand uses)
-      learnings.md           (rules and defaults earned from your reviews — appears after the first one)
+      setup.json             (brand type, image tool, Paper file)
+      learnings.md           (what you liked and didn't, remembered; appears after your first feedback)
       product-images/        (flat: [slug]-01.jpg …)
       logos/
       fonts/
       context-uploads/       (raw archive of every "add this to my brand context" drop)
     generation/
-      ad-scout/           (optional: category ad pulls and findings)
-      ad-angles/               (angles, copy and Meta ad text, one folder per campaign)
-      paper-ads/      (the built ads, one folder per campaign; ad-references/ is where you drop formats to model)
+      paper-ads/      (the built ads, one folder per batch; ad-references/ is where you drop the ads you want remade)
 ```
 
 See the project root `CLAUDE.md` for the full convention list.

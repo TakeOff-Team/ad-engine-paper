@@ -5,13 +5,13 @@
  * nothing here depends on eyeballing a screenshot.
  *
  * Usage (from project root, Paper Desktop open with the brand file open):
- *   node .claude/skills/paper-ads/preflight.js --file <paperFileId> [--only a1-v1,a3-v2] [--campaign brands/<brand>/generation/paper-ads/<campaign>] [--config brands/<brand>/intelligence/preflight.json] [--out report.json]
+ *   node .claude/skills/paper-ads/preflight.js --file <paperFileId> [--only r1,r2-v2] [--campaign brands/<brand>/generation/paper-ads/<campaign>] [--config brands/<brand>/intelligence/preflight.json] [--out report.json]
  *
  * --campaign points at the concept folders; with it the script reads each variant's product_bbox from
  * spec.json (written by product-bbox.py or extend-plate.py) and fails text that overlaps the product or a
  * product that enters the 9:16 rail, which Paper alone cannot see because the product is baked into the plate.
  *
- * Checks, per artboard named "a1-v1 · 4x5" or "a1-v1 · 9x16":
+ * Checks, per artboard named "r1 · 4x5" or "r1 · 9x16" (extra versions "r1-v2 · 4x5"; older "a1-v1" names still work):
  *   FAIL  canvas is not 1080×1350 (4:5) or 1080×1920 (9:16)
  *   FAIL  a text layer overlaps a photo it does not belong to, or another text layer (a transparent cutout: WARN, check at 100%)
  *   FAIL  a text layer runs outside the artboard
@@ -21,7 +21,7 @@
  *   FAIL  a photo frame carries objectPosition (Paper keeps it but ignores it; the crop never applied)
  *   WARN  a photo frame's backgroundPosition was never set (still the 50% 50% default)
  *   WARN  the bottom band below the last element is taller than the allowed empty band (4:5 120px, 9:16 360px)
- *   HELD  an artboard named "a3-v1 · 9x16 (HELD: reason)" is listed with its reason and never counted as a pass
+ *   HELD  an artboard named "r3 · 9x16 (HELD: reason)" is listed with its reason and never counted as a pass
  *   WARN  a 4:5 and 9:16 pair are not side by side, or a Meta ad text card is not last in its row
  *
  * preflight.json (optional, in the brand's intelligence/ folder) lets a brand tighten the floors:
@@ -148,7 +148,7 @@ function check(ab, ratio, nodes, byId, cfg, vspec) {
   const c = new PaperClient(); await c.connect();
   const info = PaperClient.json(await c.call('get_basic_info', { fileId }));
   if (!info || !info.artboards) { console.error('could not read the file. Is Paper Desktop open with this file?'); process.exit(2); }
-  const ads = info.artboards.map(a => ({ ...a, m: /^(a\d+-v\d+[a-z]?)\s*·\s*(4x5|9x16)(\s*\((.*)\))?$/.exec(a.name || '') })).filter(a => a.m && (!only || only.includes(a.m[1])));
+  const ads = info.artboards.map(a => ({ ...a, m: /^((?:r\d+(?:-v\d+)?|a\d+-v\d+)[a-z]?)\s*·\s*(4x5|9x16)(\s*\((.*)\))?$/.exec(a.name || '') })).filter(a => a.m && (!only || only.includes(a.m[1])));
   const campaign = arg('--campaign'); // concept folders with spec.json: product boxes measured on the plates
   const cards = info.artboards.filter(a => /·\s*Meta ad text$/.test(a.name || ''));
   console.log(`preflight · ${info.fileName} · ${ads.length} ad artboard(s)\n`);

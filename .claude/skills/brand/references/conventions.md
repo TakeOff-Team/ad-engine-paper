@@ -1,6 +1,6 @@
 # Ad Engine: Paper, skill conventions
 
-Angle-first, editable static ads built in Paper, with the photography from Paper's own image generation (Higgsfield or fal only if the person switches).
+Remakes of ads the person likes, editable in Paper, with the photography from Paper's own image generation (Higgsfield or fal only if the person switches).
 
 ---
 
@@ -15,10 +15,8 @@ brands/
     intelligence/                  ← what the brand IS. Written by /brand.
       visual-guidelines.md              ← visual identity + PROMPT MODIFIER (brand-detection marker)
       brand-strategy.md                 ← personality/values, audience, competitive landscape
-      counter-positioning.md            ← counter-position + value proposition package
       brand-voice.md                    ← how the brand writes (copy layer)
       brand-context.md                  ← one-page portable capsule
-      avatars.md                        ← the 3–5 named people the brand sells to
       offers.md                         ← the closed list of offers any ad may use
       setup.json                        ← brand type + image tool (paper, unless switched) + Paper file id
       learnings.md                      ← Rules and Defaults earned from reviews
@@ -32,15 +30,11 @@ brands/
       context-uploads/                  ← raw archive of every "add this to my brand context" drop
 
     generation/                    ← what the brand MAKES.
-      ad-scout/
-        [YYYY-MM-DD]/                   ads/ · ads.json · contact-sheet.png · findings.md
-      ad-angles/
-        [campaign]/                     angles.md · copy.md · ad-unit.md · ad-unit.json
       paper-ads/
-        ad-references/                  ← inbox: drop winning-ad format refs here
-        [campaign]/
-          preflight.json                ← the measuring script's last report for the campaign
-          [angle]-[variant]/            spec.json · plates · wireframe screenshots · exported PNGs
+        ad-references/                  ← inbox: drop the ads you want remade here
+        [YYYY-MM-DD]/
+          preflight.json                ← the measuring script's last report for the batch
+          [r1]/                         spec.json · plates · wireframe screenshots · exported PNGs
 ```
 
 **`intelligence/visual-guidelines.md` is the brand-detection marker.** Its presence is what every downstream skill uses to recognise a real brand.
@@ -55,10 +49,8 @@ Each skill lives in `.claude/skills/<name>/` with its `SKILL.md` and its scripts
 
 | Command | What it does |
 |---------|-------------|
-| `/brand` | Build the brand's operating system under `intelligence/`: strategy, counter-positioning, palette, typography, logo, voice, context capsule, product catalog, avatars, offers. Also scaffolds `generation/`. Re-run any time to fold in new products, assets or facts |
-| `/ad-scout` | Optional. Asks first, then pulls what the category is running and files the ads the person picks as references |
-| `/ad-angles` | Four to five angles, two variants each, the on-image copy slot by slot, a claims ledger, and the Meta ad text per angle |
-| `/paper-ads` | Builds every variant in Paper: a text-free photographic plate plus independently editable text and UI, in 4:5 and 9:16, one row per angle |
+| `/brand` | Build the brand's operating system under `intelligence/`: strategy, palette, typography, logo, voice, context capsule, product catalog, offers. Also scaffolds `generation/`. Re-run any time to fold in new products, assets or facts |
+| `/paper-ads` | Remakes each reference ad for the brand in Paper: a text-free photographic plate plus independently editable text and UI, in 4:5 and 9:16, one row per reference |
 
 ---
 
@@ -68,7 +60,7 @@ Each skill lives in `.claude/skills/<name>/` with its `SKILL.md` and its scripts
 - File names: lowercase, hyphens, no spaces. Example: `energy-gels-dark.png` not `Energy Gels Dark.png`
 - Output versioning: reruns always increment (`_v1`, `_v2`, `_v3`). Previous outputs are never overwritten
 - The image tool is per brand, in `intelligence/setup.json`, and is `paper` unless the person asks to switch. A fal key goes in `.env` at the project root: `FAL_KEY=your_key_here`. Higgsfield needs no key
-- Ids are `a1-v1`: angle, then variant. Folders, artboards, copy blocks and verdicts all use them
+- Ids are `r1`, `r2`: one per reference, in order; extra versions are `r1-v2`. Folders, artboards and feedback all use them
 - `node .claude/skills/paper-ads/preflight.js --file <paperFileId>` measures every ad artboard in the open Paper file; `paper-client.js` is the local client it uses (Paper Desktop must be open)
 - Generation scripts are invoked from the project root as `python3 .claude/skills/<skill>/<script>.py brands/[brand-name]/generation/<category>/[output-name]`
 
