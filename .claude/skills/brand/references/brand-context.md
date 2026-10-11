@@ -6,7 +6,7 @@
 > into *any* AI tool (ChatGPT, Claude.ai, Gemini, a video tool, a copy tool)
 > and instantly get on-brand output, without that tool having access to the rest
 > of the brand folder. It is the "brand operating system in one page": the
-> distilled export of `brand-strategy.md`, `offers.md`,
+> distilled export of `brand-strategy.md`, `counter-positioning.md`, `offers.md`,
 > `visual-guidelines.md`, `brand-voice.md`, `color-palette.json`,
 > `typography.json`, and `products.json`.
 

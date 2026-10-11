@@ -15,8 +15,10 @@ brands/
     intelligence/                  ← what the brand IS. Written by /brand.
       visual-guidelines.md              ← visual identity + PROMPT MODIFIER (brand-detection marker)
       brand-strategy.md                 ← personality/values, audience, competitive landscape
+      counter-positioning.md            ← counter-position + value proposition package
       brand-voice.md                    ← how the brand writes (copy layer)
       brand-context.md                  ← one-page portable capsule
+      avatars.md                        ← the 3–5 people the brand sells to, in their own words
       offers.md                         ← the closed list of offers any ad may use
       setup.json                        ← brand type + image tool (paper, unless switched) + Paper file id
       learnings.md                      ← Rules and Defaults earned from reviews
@@ -49,7 +51,7 @@ Each skill lives in `.claude/skills/<name>/` with its `SKILL.md` and its scripts
 
 | Command | What it does |
 |---------|-------------|
-| `/brand` | Build the brand's operating system under `intelligence/`: strategy, palette, typography, logo, voice, context capsule, product catalog, offers. Also scaffolds `generation/`. Re-run any time to fold in new products, assets or facts |
+| `/brand` | Build the brand's operating system under `intelligence/`: strategy, counter-positioning, palette, typography, logo, voice, context capsule, product catalog, avatars, offers. Also scaffolds `generation/`. Re-run any time to fold in new products, assets or facts |
 | `/paper-ads` | Remakes each reference ad for the brand in Paper: a text-free photographic plate plus independently editable text and UI, in 4:5 and 9:16, one row per reference |
 
 ---

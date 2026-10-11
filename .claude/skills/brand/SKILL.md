@@ -1,6 +1,6 @@
 ---
 name: brand
-description: Run when the user wants to set up their brand, add their brand to the project, provides a website URL / brand guidelines / positioning doc for onboarding, OR says "add this to my brand context" (a product, image, doc, logo, font, or fact to fold into an existing brand). Works from a website URL, brand documents, or a manual description. Builds the brand's operating system under brands/[brand-name]/intelligence/: strategy, colour palette + typography + logo read off the live site, brand voice, real offers, a portable context capsule, and a product catalog with photos — plus incrementally adds new products/assets/facts to an existing brand at any time. Everything downstream (static ads) is personalised to the brand from the start. Multiple brands can be set up and run side-by-side.
+description: Run when the user wants to set up their brand, add their brand to the project, provides a website URL / brand guidelines / positioning doc for onboarding, OR says "add this to my brand context" (a product, image, doc, logo, font, or fact to fold into an existing brand). Works from a website URL, brand documents, or a manual description. Builds the brand's operating system under brands/[brand-name]/intelligence/: strategy, counter-positioning, colour palette + typography + logo read off the live site, brand voice, the customers it sells to (avatars), real offers, a portable context capsule, and a product catalog with photos — plus incrementally adds new products/assets/facts to an existing brand at any time. Everything downstream (static ads) is personalised to the brand from the start. Multiple brands can be set up and run side-by-side.
 group: Core
 summary: Point it at a URL, get a brand brain. Run this first. Also folds new products, images, docs and facts into an existing brand at any time
 version: 1.0.0
@@ -41,8 +41,10 @@ A brand has two compartments and `/brand` creates both (Step 2). Everything
 brands/[brand-name]/intelligence/
   visual-guidelines.md     ← visual identity + PROMPT MODIFIER  (brand-detection marker)
   brand-strategy.md        ← personality/values, audience, competitive landscape
+  counter-positioning.md   ← counter-position + value proposition package (Step 3)
   brand-voice.md           ← how the brand writes (copy layer)
   brand-context.md         ← one-page portable capsule (paste into any AI tool)
+  avatars.md               ← the 3–5 people the brand sells to, in their own words (Step 6e)
   offers.md                ← the closed list of real offers any ad may use (Step 6e)
   setup.json               ← brand type, image tool (Paper unless switched), Paper file id, tools
   learnings.md             ← rules and preferences earned from feedback (written by /paper-ads, not here)
@@ -55,9 +57,10 @@ brands/[brand-name]/intelligence/
   context-uploads/         ← RAW archive of every "add this to my brand context" drop ([YYYY-MM-DD]-[slug].ext)
 ```
 
-> **`offers.md` is load-bearing downstream.** `/paper-ads` takes every price,
-> code and offer from it and is forbidden from inventing one. Format:
-> `references/offers.md`.
+> **`avatars.md` and `offers.md` are load-bearing downstream.** `/paper-ads`
+> writes each ad's words for the avatars in `avatars.md`, in their own pain
+> words, and takes every price, code and offer from `offers.md`; it is forbidden
+> from inventing one. Formats: `references/avatars.md`, `references/offers.md`.
 
 > **`context-uploads/` is the raw-input trail, not a derived doc.** Every time the
 > user drops more context into an existing brand, the material is archived here
@@ -100,6 +103,8 @@ remove one and nothing else breaks. `python3 .claude/skills/brand/brand.py
 exact structure:
 
 - `references/brand-strategy.md` — structure of `brand-strategy.md`
+- `references/counter-positioning.md` — the counter-positioning framework (Step 3)
+- `references/avatars.md` — structure of `avatars.md` (Step 6e)
 - `references/color-palette.md` — structure of `color-palette.json`
 - `references/typography.md` — structure of `typography.json`
 - `references/brand-voice.md` — structure of `brand-voice.md`
@@ -224,7 +229,7 @@ When the site and a search result disagree, the site wins.
 
 Then search — disambiguated — for what the site didn't answer:
 
-- founding story, mission — personality, values, what it stands against
+- founding story, mission — personality, values, the counter-position
 - `[brand] vs [competitor]`, `best [category] brands` — the competitive landscape
 - reviews, Reddit / Substack / Amazon — customer language, pain points, what they tried before
 - font / typeface names, hex codes, brand colours — though the live DOM read in
@@ -373,6 +378,19 @@ Source in priority order:
 
 A favicon-only result is a square mark, not the full wordmark — note this in
 the Step 8 report so the user knows to drop in a better file if they have one.
+
+---
+
+## Step 3 — Counter-positioning (sub-skill)
+
+After `brand-strategy.md` and **before** product collection, run the
+counter-positioning framework. Read `references/counter-positioning.md` in full
+and follow it exactly — a seven-phase process ending in the Phase 7 package
+written to `./brands/[brand-name]/intelligence/counter-positioning.md`. You
+answer its questions yourself from the research; never put them to the person.
+Honour its behavioural rules (always name what the brand stands against; never
+accept a value proposition without a "without" clause). Summarise the
+recommended counter-position in one line in chat, then continue.
 
 ---
 
@@ -526,9 +544,25 @@ Catalog: [N] products, [M] images.
   …
 ```
 
-### 6e — Offers
+### 6e — Avatars and offers
 
-Read `references/offers.md` and write
+The two files every ad reads. They come last in the research chain because both
+depend on the catalog: offers need real prices, avatars need to know what's
+actually sold.
+
+Read `references/avatars.md`, then write
+`./brands/[brand-name]/intelligence/avatars.md` — three to five named people,
+each with a concrete vignette, **verbatim pain words**, wants, objections with
+their rebuttals, and an emotional driver. Draw the language from reviews,
+Reddit, ad-library comments, the brand's own segment copy, and anything the
+project already holds (call transcripts, review exports, notes). Quote lines
+verbatim, tag each with its source (`review`, `call`, `founder`, `inferred`),
+and mark a gap rather than present a guess as a finding. Avatars are distinct
+on *why they buy*, never on demographics alone. **Don't interview the person
+for this.** Mention once, in the report, that they can drop in reviews or call
+transcripts any time with "add this to my brand context" to sharpen it.
+
+Then read `references/offers.md` and write
 `./brands/[brand-name]/intelligence/offers.md` — the closed list of offers any
 ad may use, with IDs (`O1`, `O2`, …) and stacking rules. Source every price,
 code, term and guarantee from the catalog, the live storefront, or the person
@@ -566,8 +600,9 @@ what now exists.
    in plain words. Say the build step checks the fonts in Paper, so there's
    nothing to verify now. Licensed fonts the person must add go here.
 3. **Products** — how many, with photos
-4. **Offers** — the real offers on file, and anything left out because the site
-   was unclear
+4. **Positioning** — the counter-position in one line
+5. **Customers and offers** — the avatars by name, the real offers on file, and
+   anything left out because the site was unclear
 
 Then what happens next, in plain words:
 
@@ -631,7 +666,7 @@ Then act only on the new item and update the file(s) it belongs to:
   `brand.py --fetch-fonts "[Family]"`; update `typography.json` if it's a new
   brand face.
 - **A brand fact / document / correction:** update the specific file it belongs
-  to — `brand-strategy.md`, `visual-guidelines.md`, `offers.md`,
+  to — `brand-strategy.md`, `counter-positioning.md`, `visual-guidelines.md`, `avatars.md`, `offers.md`,
   `brand-voice.md`, `color-palette.json`, or `typography.json` — and nothing else.
 
 ### Step C — Regenerate the capsule

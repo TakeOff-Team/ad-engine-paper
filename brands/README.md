@@ -18,11 +18,13 @@ brands/
     intelligence/
       visual-guidelines.md   (visual identity + prompt modifier — brand-detection marker)
       brand-strategy.md      (personality, audience, competitive landscape)
+      counter-positioning.md (counter-position + value proposition)
       brand-voice.md         (how the brand writes)
       brand-context.md       (one-page portable capsule for any AI tool)
       color-palette.json     (structured colour tokens)
       typography.json        (typefaces + design-system pointer)
       products.json          (product catalog index)
+      avatars.md             (the people the brand sells to, in their own words)
       offers.md              (the closed list of offers any ad may use)
       setup.json             (brand type, image tool, Paper file)
       learnings.md           (what you liked and didn't, remembered; appears after your first feedback)

@@ -96,8 +96,8 @@ photos, and write it. Then read `intelligence/learnings.md` if it exists; its
 Rules are hard constraints and its Defaults are strong preferences. Read
 `intelligence/preflight.json` if it exists; it holds the brand's own type
 minimums and empty-band limits, and the preflight script enforces them. Read
-`brand-voice.md`, `offers.md` and `products.json`: they are where every word
-and every fact comes from.
+`brand-voice.md`, `avatars.md`, `counter-positioning.md`, `offers.md` and
+`products.json`: they are where every word and every fact comes from.
 
 Check the tools the run needs, kindly and without warning language:
 - **Paper:** open `paper_file_id`; with no file yet, create the brand's file
@@ -138,7 +138,9 @@ on it:
 
 - Same idea, same structure, same rough length per line. If the reference says
   "We got caught", this brand's ad gets caught too, in its own words.
-- In the brand's voice from `brand-voice.md`.
+- In the brand's voice from `brand-voice.md`, aimed at the avatar in
+  `avatars.md` the reference's idea fits best, using that person's own pain
+  words where a line calls for them. Name the avatar in `spec.json`.
 - Every fact, number, price and claim from `products.json` or `offers.md`.
   Nothing invented, nothing borrowed from the reference. If the reference
   leans on a fact this brand doesn't have (a review count, a discount), use a

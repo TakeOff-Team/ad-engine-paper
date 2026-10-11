@@ -2,7 +2,7 @@
 
 Find an ad you love. Get it remade for your brand.
 
-Point Claude at your website once and it learns your brand: colours, fonts, logo, products, voice and real offers. Then drop in ads you like, from any brand, and it remakes each one for you: same format, same idea, your product, your words, your look. Built in Paper, so every word is an editable layer. Only the photo behind it costs anything, and nothing is spent without your yes.
+Point Claude at your website once and it learns your brand: colours, fonts, logo, products, voice, positioning, the customers you sell to and your real offers. Then drop in ads you like, from any brand, and it remakes each one for you: same format, same idea, your product, your words, your look. Built in Paper, so every word is an editable layer. Only the photo behind it costs anything, and nothing is spent without your yes.
 
 <!-- skills-count:start -->
 Two skills. One brand context both of them read.
