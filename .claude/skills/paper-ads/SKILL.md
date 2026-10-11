@@ -28,8 +28,10 @@ copy change, a new variant or a translation costs nothing. Only a new photograph
 costs money.
 
 Paper is not optional. The Paper file is the deliverable; the flat PNGs are
-exports of it. If the Paper connector is not reachable, stop and say so in one
-line (*"Open Paper Desktop with a file open, then say go"*). Do not fall back to
+exports of it. If Paper is connected but no file is open, create or open the brand's file
+yourself (see `references/paper-canvas.md`) and carry on. If the Paper connector
+is not reachable at all, stop and say so in one friendly line (*"Open Paper
+Desktop, then say go"*). Do not fall back to
 a flat render and call it done.
 
 **Nothing is called finished until `preflight.js` says so.** The script reads
@@ -89,7 +91,8 @@ exists; it holds the brand's own type minimums and empty-band limits, and the
 preflight script enforces them.
 
 Check the tools the run needs, and say what is missing in plain words:
-- **Paper:** list files or open `paper_file_id`. No connection: stop.
+- **Paper:** open `paper_file_id`; with no file yet, create the brand's file
+  and open it, without asking. No connection at all: stop, in one friendly line.
 - **Paper image generation** (the default): nothing to check beyond Paper itself.
   Mention the plan's weekly limit once if the batch is large.
 - **Higgsfield** (only if switched): one balance call. State the credits available.

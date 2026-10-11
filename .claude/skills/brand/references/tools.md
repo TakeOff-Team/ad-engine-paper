@@ -34,15 +34,41 @@ use.
 
 ## How to check, without spending
 
-- **Paper:** list files, or open the brand's file.
-- **Firecrawl, Apify, Perplexity, Claude in Chrome:** the tool appears in this session's tool list. Do not call a paid tool just to check it.
+- **Paper:** list files. If Paper is connected but no file is open, don't warn:
+  create the brand's file (`create_file`, named `ad-engine · {Brand}`), open it
+  (`open_file`), record its id as `paper_file_id`, and say "I opened a Paper file
+  for {Brand}." If Paper isn't connected at all, give the person the two steps
+  in plain words (open Paper Desktop, turn on its Claude connection) and keep
+  going with everything that doesn't need it.
+- **Firecrawl, Apify, Perplexity, Claude in Chrome:** a tool counts as connected
+  if **either** route has it:
+  1. **Directly:** the tool appears in this session's tool list.
+  2. **Through Composio:** many people connect apps through Composio instead. If
+     any Composio tool is in this session (names containing `COMPOSIO`), run
+     `COMPOSIO_SEARCH_TOOLS` with one query per app ("scrape a web page with
+     firecrawl", "run an apify actor"). It's free, and its connection status
+     says which toolkits have an active connection.
+  Never report a tool as missing until both routes are checked. When a tool is
+  connected only through Composio, use it through Composio
+  (`COMPOSIO_MULTI_EXECUTE_TOOL`) for the whole run. Do not call a paid tool
+  just to check it.
 - **Higgsfield** (only after a switch): a balance call. **fal** (only after a switch): `FAL_KEY` is present in `.env`.
 
 ## How to tell the person
 
-Once, during `/brand`: three lines for Paper, Firecrawl and Apify (connected or
-not, what a missing one would add, the line to connect it), then the image-tool
-sentence. Then carry on. Never block on an optional tool, never ask twice, and
+Once, during `/brand`, in two or three friendly sentences. No table, no ✅ ⚠️ ❌,
+no "missing", "not connected" or "no key". Lead with what's ready, then name any
+optional extra as something they *could* add later, with what it would get them.
+For example:
+
+> "You're all set: Paper is open and ready, and it'll make the photos too.
+> Firecrawl is connected, so I'll read your site cleanly. One optional extra for
+> later: Apify lets me pull your competitors' ads in bulk. You don't need it
+> today."
+
+Never mention Perplexity, Claude in Chrome, Higgsfield or fal here, except the
+one line that they can switch photos to Higgsfield or fal whenever they like.
+Connect lines are given only if the person asks how to add an extra. Then carry on. Never block on an optional tool, never ask twice, and
 never pretend a fallback was the best tool. If a result came from a fallback,
 say so where it matters ("colours read from the HTML, not the live page: check
 them").

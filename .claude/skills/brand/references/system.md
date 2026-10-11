@@ -15,6 +15,24 @@ It is not much of a codebase on purpose. The skills are the product; the brand's
 - Everything reads the brand intelligence `/brand` writes. The shapes of the `intelligence/` files are the system's internal API; change them only deliberately.
 - `python3 .claude/skills/brand/brand.py --validate` checks every declaration; `--docs` regenerates the skill tables between markers in `README.md` and this file.
 
+## Who this is for
+
+Assume the person has **low technical skill and has barely used AI.** Many have
+never opened a terminal. Everything the skills say and do is built so this
+person never feels lost or scared off:
+
+- **Fix it, don't flag it.** If something can be sorted without the person, sort
+  it and say what you did in one line. Paper is open but no file is? Create the
+  brand's file and open it. A tool is connected through Composio rather than
+  directly? Use it that way. Only ask when the person genuinely has to act.
+- **No warning signs, no red crosses, no error language.** Never show ⚠️ or ❌,
+  "missing", "failed", "not connected" or "no key". Say what is ready, then what
+  could be added later as an optional extra.
+- **No tables of tools, no jargon.** One or two short sentences beat a table.
+  Never name a tool the person doesn't need.
+- **One ask at a time,** with the exact words or the exact click they need.
+- **Encouraging and forward-facing.** Every message ends with what happens next.
+
 ## How this system thinks
 
 - **Angles, not ads.** A campaign is four to five hypotheses about why a specific person buys, each tested with two variants that differ on exactly one thing. The canvas, the files and the review are all organised by angle.
@@ -27,7 +45,7 @@ It is not much of a codebase on purpose. The skills are the product; the brand's
 
 ## Repository map
 
-- `.claude/skills/brand/`: point it at a URL, get a brand brain. **Run this first.** It also runs a short tool check (Paper, Firecrawl, Apify) and asks the setup questions (what you sell, whose ad account and link, own brand or client or practice). Photos default to Paper and scaffolds every folder.
+- `.claude/skills/brand/`: point it at a URL, get a brand brain. **Run this first.** It also runs a short tool check (Paper, Firecrawl, Apify) and asks the setup questions (what you sell, whose ad account and link, own brand or client or practice). Photos default to Paper. It scaffolds every folder.
 - `.claude/skills/ad-scout/`: optional reference finding. Always asks before pulling.
 - `.claude/skills/ad-angles/`: angles, on-image copy, claims ledger, Meta ad text.
 - `.claude/skills/paper-ads/`: the build, in Paper, and `preflight.js`, the measuring script. Conventions for all skills in `.claude/skills/brand/references/conventions.md`.
@@ -50,7 +68,7 @@ The brand's **prompt modifier** (`visual-guidelines.md`) opens every image promp
 
 ## Tools
 
-Best tool first, fallback always, the person told once. The full table, the cheap way to check each tool, and the connect lines are in `.claude/skills/brand/references/tools.md`. Only Paper is required.
+Best tool first, fallback always, the person told once and kindly. Tools can be connected directly or through Composio; check both before calling anything missing. The cheap way to check each tool, the Composio check and the connect lines are in `.claude/skills/brand/references/tools.md`. Only Paper is required.
 
 ## Guardrails (non-negotiable)
 
@@ -68,4 +86,4 @@ Best tool first, fallback always, the person told once. The full table, the chea
 - **First move: `/brand <url>`.**
 - **Then references:** drop them in, or `/ad-scout`.
 - **Then `/ad-angles`, then `/paper-ads`.**
-- Chat is plain language. No step codes, no schema names, no file names unless the person needs to open one. Explain any term of art the first time it appears (an angle is one reason a specific person buys; a variant changes one thing; a plate is the photo with no words on it). Every step closes with a short summary plus what the person does next.
+- Chat is plain language, written for someone who has barely used AI (see **Who this is for**). No step codes, no schema names, no file names unless the person needs to open one. Explain any term of art the first time it appears (an angle is one reason a specific person buys; a variant changes one thing; a plate is the photo with no words on it). Every step closes with a short summary plus what the person does next.

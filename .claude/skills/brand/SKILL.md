@@ -117,19 +117,21 @@ exact structure:
 ## Step 0a — Check the tools (silent, then three lines)
 
 Read `.claude/skills/brand/references/tools.md`. Check the tools the cheap way it
-describes, without spending anything. Show the person **only three tools**, as
-three short lines: **Paper** (required: the ads are built there and it makes the
+describes, without spending anything. Tell the person about **only three tools**, in two or
+three friendly sentences (no table, no warning signs; wording in `tools.md`): **Paper** (required: the ads are built there and it makes the
 photos), **Firecrawl** (optional: reads the website more cleanly) and **Apify**
-(optional: pulls competitor ads for `/ad-scout`). For each one say connected or
-not, and for a missing optional one, what it would add and the line to connect
-it. Then one sentence: "Photos are made with Paper's built-in image generation.
+(optional: pulls competitor ads for `/ad-scout`). Lead with what's ready. A missing optional one is "an optional extra you could add
+later", with what it would add. Check Composio as well as direct connections
+before calling anything missing. Then one sentence: "Photos are made with Paper's built-in image generation.
 If you'd ever rather use Higgsfield or fal, just say so."
 
 Do not list anything else. Perplexity and Claude in Chrome are checked silently
 and used when present, never shown. Higgsfield and fal are not checked unless
 the person asks to switch.
 
-If Paper is missing, say so plainly and keep going with the brand setup, since
+If Paper is connected but no file is open, create the brand's Paper file and
+open it yourself, then say so in one line. If Paper isn't connected at all, give
+the two plain steps to connect it and keep going with the brand setup, since
 nothing here needs Paper until the build. Record the result in `setup.json` as
 `"tools": {"paper": true, "firecrawl": false, "apify": true, "perplexity": true,
 "chrome": false}` once the brand folder exists. Never ask about a tool twice,
@@ -314,7 +316,7 @@ Then read `references/color-palette.md` and write
 dark→light); keep `primary`, `secondary`, `background` as empty arrays for
 compatibility. Uppercase 6-digit hex. Source the colours in priority order:
 
-Reading the site's pages themselves: Firecrawl if connected (markdown,
+Reading the site's pages themselves: Firecrawl if connected, directly or through Composio (markdown,
 screenshot and branding formats), otherwise the built-in web fetch.
 
 1. **Live computed styles (preferred — a real read).** If a Chrome browser is

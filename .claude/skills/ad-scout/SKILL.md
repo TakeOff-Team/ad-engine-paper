@@ -59,7 +59,9 @@ Two rules that prevent bad data:
 
 ## Pull
 
-**With the Apify connector (preferred):** the Meta Ad Library scraper, about
+**With Apify (preferred), connected directly or through Composio** (check both,
+as `tools.md` describes; through Composio, run the same actor with
+`COMPOSIO_MULTI_EXECUTE_TOOL`): the Meta Ad Library scraper, about
 60 to 100 active ads per named advertiser, plus one category keyword run of 100.
 
 State the cost before the run: roughly a tenth of a cent per ad, so three
@@ -76,7 +78,7 @@ and platform mix.
 screenshot the grid and one or two ad details per advertiser. Say in the findings
 that the sample is thin.
 
-**Neither available:** say so once, with what Apify would add (hundreds of ads
+**Neither available:** say so once, kindly and without warning language, with what Apify would add (hundreds of ads
 instead of a few screenshots) and its connect line from `.claude/skills/brand/references/tools.md`, then and give the person the manual route in one line:
 open the Meta Ad Library, search the competitor's page, screenshot the ads they
 like, drop them into the references folder.

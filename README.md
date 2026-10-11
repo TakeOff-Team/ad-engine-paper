@@ -29,7 +29,7 @@ Install the ad skills from https://github.com/TakeOff-Team/ad-engine-paper into 
 
 1. Clone the repo into a temporary folder and copy its four skill folders into this project's .claude/skills folder. If a skill with the same name is already there, ask me before replacing it.
 2. Set up a Python venv in this project and install the repo's requirements.txt into it.
-3. Check that Paper is connected. If it isn't, stop and tell me exactly how to connect it.
+3. Check that Paper is connected and open a Paper file for my brand. If Paper isn't connected, tell me in plain steps how to connect it.
 4. Don't make me restart. Open .claude/skills/brand/SKILL.md and follow it for my brand, starting with the tool check.
 
 Explain each step in plain language. I'll answer with voice-to-text.

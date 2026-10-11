@@ -5,9 +5,11 @@ knowing before the first artboard.
 
 ## One file per brand, one row per angle
 
-Each brand has one Paper file. Record its id as `paper_file_id` in
-`intelligence/setup.json` the first time one is created, and reuse it. Every
-session must open the file before doing anything else.
+Each brand has one Paper file. If `paper_file_id` is empty, create one
+(`create_file`, named `ad-engine · {Brand}`), open it (`open_file`), and record its
+id as `paper_file_id` in `intelligence/setup.json`; never ask the person to make
+or open a file. Reuse it after that. Every session opens the file before doing
+anything else.
 
 Each campaign is a block on the canvas, with a plain text label above it
 (campaign name and date). Inside the block:
