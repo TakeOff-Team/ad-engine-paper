@@ -13,24 +13,26 @@ Four skills. One brand context every one of them reads.
 | | Why | Cost |
 |---|---|---|
 | **Claude Code** or **Claude Cowork**, opened in this folder | Runs the skills and the scripts | Your Claude plan |
-| **Paper Desktop**, connected to Claude | The ads are built there, as editable layers. Not optional | Free tier works |
-| One image tool: **Paper's own image generation**, **Higgsfield**, or a **fal.ai** key | Makes the photograph behind each ad. Asked once per brand, with the trade-offs explained | Included in Paper (Pro for real volume), Higgsfield credits, or about ten cents a photo on fal |
+| **Paper Desktop**, connected to Claude | The ads are built there as editable layers, and it makes the photos with its built-in image generation. Not optional | Free tier to try it; Pro for real volume |
 | **Python 3** | Runs the small scripts | Free |
-| Recommended: **Claude in Chrome** | Lets `/brand` read colours, fonts and your logo straight off your site | Free |
-| Optional: the **Apify** connector | Lets `/ad-scout` pull the ads your competitors are running | A few cents per pull |
 | Optional: **Firecrawl** | Cleaner reads of your website | Free tier works |
-| Optional: **Perplexity** | Faster, sourced research on reviews and competitors | Your Perplexity plan |
+| Optional: **Apify** | Lets `/ad-scout` pull the ads your competitors are running | A few cents per pull |
 
-Only Paper is required. Every other tool has a fallback, and `/brand` tells you once what you have, what you're missing, and what each one would add. Details in [tools.md](.claude/skills/brand/references/tools.md).
+That's the whole list. `/brand` checks these three tools once and carries on with fallbacks for anything missing. Already pay for **Higgsfield** or **fal**? Say so any time and the photos switch over. If Perplexity or Claude in Chrome happen to be connected, the skills use them quietly for sharper research and exact brand colours. Details in [tools.md](.claude/skills/brand/references/tools.md).
 
 ## Start here
 
 **Already have a Claude Code project you work in?** Open Claude Code there, make sure Paper Desktop is open with a file open, and paste this:
 
 ```
-Install this into this project and onboard me: https://github.com/TakeOff-Team/ad-engine-paper
+Install the ad skills from https://github.com/TakeOff-Team/ad-engine-paper into this project and onboard my brand: https://your-brand.com
 
-Clone it, copy its four skills into this project's .claude/skills folder, set up a Python venv here and install its requirements, then tell me to restart Claude. After I restart, check my tools, then run /brand for https://your-brand.com and walk me through it in plain language. I'll answer with voice-to-text.
+1. Clone the repo into a temporary folder and copy its four skill folders into this project's .claude/skills folder. If a skill with the same name is already there, ask me before replacing it.
+2. Set up a Python venv in this project and install the repo's requirements.txt into it.
+3. Check that Paper is connected. If it isn't, stop and tell me exactly how to connect it.
+4. Don't make me restart. Open .claude/skills/brand/SKILL.md and follow it for my brand, starting with the tool check.
+
+Explain each step in plain language. I'll answer with voice-to-text.
 ```
 
 **Starting fresh?** Clone this repo, open Claude Code in the folder, make sure Paper Desktop is open with a file open, and paste this:
@@ -48,7 +50,7 @@ git clone https://github.com/TakeOff-Team/ad-engine-paper.git
 cd ad-engine-paper
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env        # only if you chose fal
+cp .env.example .env        # only if you switch photos to fal
 ```
 
 Then, in Claude Code from this folder:
@@ -57,7 +59,7 @@ Then, in Claude Code from this folder:
 /brand https://your-brand.com
 ```
 
-That builds your brand's operating system under `brands/[brand-name]/`: strategy, positioning, voice, colour, typography, product catalog, the named people you sell to in their own words, and your offers. It asks four setup questions on the way: what you sell, which image tool, whose ad account, and whether this is your brand, a client's, or practice.
+That builds your brand's operating system under `brands/[brand-name]/`: strategy, positioning, voice, colour, typography, product catalog, the named people you sell to in their own words, and your offers. It asks a few setup questions on the way: what you sell, whose ad account and link, and whether this is your brand, a client's, or practice.
 
 Then give it formats to model. Drop ads you like into `brands/[brand-name]/generation/paper-ads/ad-references/`. No references? Run:
 

@@ -1,6 +1,6 @@
 # Ad Engine: Paper, skill conventions
 
-Angle-first, editable static ads built in Paper, with the photography from Higgsfield or fal.
+Angle-first, editable static ads built in Paper, with the photography from Paper's own image generation (Higgsfield or fal only if the person switches).
 
 ---
 
@@ -20,7 +20,7 @@ brands/
       brand-context.md                  ← one-page portable capsule
       avatars.md                        ← the 3–5 named people the brand sells to
       offers.md                         ← the closed list of offers any ad may use
-      setup.json                        ← brand type + image tool (higgsfield | fal) + Paper file id
+      setup.json                        ← brand type + image tool (paper, unless switched) + Paper file id
       learnings.md                      ← Rules and Defaults earned from reviews
       preflight.json                    ← the brand's own type minimums and empty-band limits (numbers from Defaults)
       color-palette.json                ← colour tokens (accent / neutral · name·hex·use)
@@ -67,7 +67,7 @@ Each skill lives in `.claude/skills/<name>/` with its `SKILL.md` and its scripts
 - Always open Claude Code from the project root
 - File names: lowercase, hyphens, no spaces. Example: `energy-gels-dark.png` not `Energy Gels Dark.png`
 - Output versioning: reruns always increment (`_v1`, `_v2`, `_v3`). Previous outputs are never overwritten
-- The image tool is per brand, in `intelligence/setup.json`. A fal key goes in `.env` at the project root: `FAL_KEY=your_key_here`. Higgsfield needs no key
+- The image tool is per brand, in `intelligence/setup.json`, and is `paper` unless the person asks to switch. A fal key goes in `.env` at the project root: `FAL_KEY=your_key_here`. Higgsfield needs no key
 - Ids are `a1-v1`: angle, then variant. Folders, artboards, copy blocks and verdicts all use them
 - `node .claude/skills/paper-ads/preflight.js --file <paperFileId>` measures every ad artboard in the open Paper file; `paper-client.js` is the local client it uses (Paper Desktop must be open)
 - Generation scripts are invoked from the project root as `python3 .claude/skills/<skill>/<script>.py brands/[brand-name]/generation/<category>/[output-name]`

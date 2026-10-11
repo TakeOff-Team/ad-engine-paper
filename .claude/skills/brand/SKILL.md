@@ -46,7 +46,7 @@ brands/[brand-name]/intelligence/
   brand-context.md         ← one-page portable capsule (paste into any AI tool)
   avatars.md               ← the 3–5 named people the brand sells to (Step 6e)
   offers.md                ← the closed list of offers any page may use (Step 6e)
-  setup.json               ← brand type + the image tool this brand generates with (Step 0b)
+  setup.json               ← brand type, image tool (Paper unless switched), relationship, advertiser, link (Step 0b)
   learnings.md             ← rules and defaults earned from reviews (written by /paper-ads, not here)
   color-palette.json       ← structured colour tokens (accent / neutral · name·hex·use)
   typography.json          ← typefaces (role·family·source·weights) + design-system pointer
@@ -110,20 +110,30 @@ exact structure:
 - `references/typography.md` — structure of `typography.json`
 - `references/brand-voice.md` — structure of `brand-voice.md`
 - `references/brand-context.md` — structure of the portable capsule
-- `references/setup.md` — structure of `setup.json`, and the wording of the image-tool question
+- `references/setup.md` — structure of `setup.json`, the wording of the setup questions, and how to switch image tools
 
 ---
 
-## Step 0a — Check the tools (silent, then one table)
+## Step 0a — Check the tools (silent, then three lines)
 
-Read `.claude/skills/brand/references/tools.md`. Check each tool the cheap way it
-describes, without spending anything. Then show the person one short table:
-what is connected, what is not, what each missing one would add, and the line
-to connect it. Paper is the only requirement; if it is missing, say so plainly
-and keep going with the brand setup, since nothing here needs Paper until the
-build. Record the result in `setup.json` as `"tools": {"paper": true,
-"firecrawl": false, ...}` once the brand folder exists. Never ask about a tool
-twice, and never block on an optional one.
+Read `.claude/skills/brand/references/tools.md`. Check the tools the cheap way it
+describes, without spending anything. Show the person **only three tools**, as
+three short lines: **Paper** (required: the ads are built there and it makes the
+photos), **Firecrawl** (optional: reads the website more cleanly) and **Apify**
+(optional: pulls competitor ads for `/ad-scout`). For each one say connected or
+not, and for a missing optional one, what it would add and the line to connect
+it. Then one sentence: "Photos are made with Paper's built-in image generation.
+If you'd ever rather use Higgsfield or fal, just say so."
+
+Do not list anything else. Perplexity and Claude in Chrome are checked silently
+and used when present, never shown. Higgsfield and fal are not checked unless
+the person asks to switch.
+
+If Paper is missing, say so plainly and keep going with the brand setup, since
+nothing here needs Paper until the build. Record the result in `setup.json` as
+`"tools": {"paper": true, "firecrawl": false, "apify": true, "perplexity": true,
+"chrome": false}` once the brand folder exists. Never ask about a tool twice,
+and never block on an optional one.
 
 ## Step 0 — Determine intake mode
 
@@ -148,7 +158,7 @@ Adapt the research stages below to the answer. All modes produce the same
 
 ---
 
-## Step 0b — Two setup questions (brand type and image tool)
+## Step 0b — Setup questions (brand type, relationship, advertiser)
 
 Ask these together, in your **second** response, right after the person answers
 the intake question and before the research starts. Read `references/setup.md`
@@ -162,28 +172,24 @@ for the exact wording, then write the answers to
    it and I'll need a size reference") and let the person correct it. Ask only
    when the site is genuinely ambiguous. This decides whether a base photo
    shows the product (with a size reference) or a scene with no product in it.
-2. **Which image tool do you want to use for the photography?** Paper's own
-   image generation, Higgsfield, or fal.
-3. **Is this your brand, a client's, or one you're practising on?** A client
+2. **Is this your brand, a client's, or one you're practising on?** A client
    brand means every unverified offer, every named person and every competitor
    mention waits for sign-off. A practice brand means those get flagged and the
    build goes on. Record it as `relationship`.
-4. **Whose ad account runs these, and where do they send people?** The
+3. **Whose ad account runs these, and where do they send people?** The
    advertiser (the brand itself, or an affiliate or agency running on its
    behalf) and the exact landing link, including any affiliate or tracking
    parameters. Every piece of ad text points at that link. Never assume the
-   website's own URL. Explain the trade in plain words (the reference file has the wording):
-   what each costs, what each needs set up, and that only the photograph ever
-   costs anything, because every word on the ad is an editable layer in Paper.
-   If they have neither, recommend one and say why. If they have both, let them
-   pick and say it can be changed later by editing one line.
+   website's own URL.
 
-Also say, once, that the ads are built in **Paper**, so Paper Desktop needs to
-be installed and connected before the build step. Do not make it a question.
+**The image tool is not a question.** Every brand starts on Paper's own image
+generation (`image_tool: paper`). The tool check already told the person they
+can switch to Higgsfield or fal; if they ask, use the switching section of
+`references/setup.md` to explain the trade and change the one line.
 
 Do not ask anything else here. Everything else is found on the site or asked at
-the step that needs it. Write `brand_type`, `image_tool`, `relationship`,
-`advertiser` and `landing_url` to `setup.json`.
+the step that needs it. Write `brand_type`, `image_tool` (`paper`),
+`relationship`, `advertiser` and `landing_url` to `setup.json`.
 
 **A decision made once is not reopened.** If you told the person how a case
 will be handled ("I'll only use offers that are live on the site"), do not ask

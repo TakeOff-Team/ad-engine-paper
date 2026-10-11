@@ -27,7 +27,7 @@ It is not much of a codebase on purpose. The skills are the product; the brand's
 
 ## Repository map
 
-- `.claude/skills/brand/`: point it at a URL, get a brand brain. **Run this first.** It also asks the four setup questions (what you sell, image tool, whose ad account and link, own brand or client or practice) and scaffolds every folder.
+- `.claude/skills/brand/`: point it at a URL, get a brand brain. **Run this first.** It also runs a short tool check (Paper, Firecrawl, Apify) and asks the setup questions (what you sell, whose ad account and link, own brand or client or practice). Photos default to Paper and scaffolds every folder.
 - `.claude/skills/ad-scout/`: optional reference finding. Always asks before pulling.
 - `.claude/skills/ad-angles/`: angles, on-image copy, claims ledger, Meta ad text.
 - `.claude/skills/paper-ads/`: the build, in Paper, and `preflight.js`, the measuring script. Conventions for all skills in `.claude/skills/brand/references/conventions.md`.

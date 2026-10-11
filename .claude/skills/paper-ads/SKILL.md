@@ -1,7 +1,7 @@
 ---
 name: paper-ads
-description: "Build the ads in Paper: for every angle and variant from /ad-angles, wireframe the reference format with the real copy, generate only the text-free photographic plate (Higgsfield or fal, whichever the brand chose), then place fully editable text and UI on it, in 4:5 and 9:16, laid out on the Paper canvas by angle, and measured by a preflight script before anything is called done. Also runs on a single reference with no campaign."
-image_model: Higgsfield Nano Banana Pro, or fal GPT Image 2.5 Sunburst
+description: "Build the ads in Paper: for every angle and variant from /ad-angles, wireframe the reference format with the real copy, generate only the text-free photographic plate (Paper's own image generation by default, or Higgsfield or fal if the brand switched), then place fully editable text and UI on it, in 4:5 and 9:16, laid out on the Paper canvas by angle, and measured by a preflight script before anything is called done. Also runs on a single reference with no campaign."
+image_model: Paper image generation (default), Higgsfield Nano Banana Pro, or fal GPT Image 2.5 Sunburst
 group: Ads
 summary: Builds every ad in Paper as an editable layout over a text-free photo, in 4:5 and 9:16, arranged by angle, measured before delivery
 version: 3.1.0
@@ -9,7 +9,7 @@ outputs: [paper-ads]
 inboxes:
   paper-ads/ad-references: Ad references
 requires: [Paper]
-optional: [Higgsfield connector or FAL_KEY for photographic plates, intelligence/fonts/*.ttf for the brand's real typefaces]
+optional: [Higgsfield connector or FAL_KEY only if the brand switched image tools, intelligence/fonts/*.ttf for the brand's real typefaces]
 ---
 
 # Static ads, built in Paper
@@ -80,7 +80,7 @@ Create this skill's declared inbox and output folders before use.
 ## 0. Read the setup
 
 Read `intelligence/setup.json` (written by `/brand`): `brand_type`
-(`product` or `service`), `image_tool` (`paper`, `higgsfield` or `fal`), `image_model`,
+(`product` or `service`), `image_tool` (`paper` by default; `higgsfield` or `fal` only if the person switched), `image_model`,
 `advertiser` and `landing_url`, and `paper_file_id` if one exists. Missing file:
 ask the setup questions from `/brand` Step 0b and write it. Then read
 `intelligence/learnings.md` if it exists; its Rules are hard constraints and its
@@ -90,10 +90,10 @@ preflight script enforces them.
 
 Check the tools the run needs, and say what is missing in plain words:
 - **Paper:** list files or open `paper_file_id`. No connection: stop.
-- **Paper image generation** (if chosen): nothing to check beyond Paper itself.
+- **Paper image generation** (the default): nothing to check beyond Paper itself.
   Mention the plan's weekly limit once if the batch is large.
-- **Higgsfield** (if chosen): one balance call. State the credits available.
-- **fal** (if chosen): `FAL_KEY` present in `.env`.
+- **Higgsfield** (only if switched): one balance call. State the credits available.
+- **fal** (only if switched): `FAL_KEY` present in `.env`.
 
 ## 1. Decide what is being built
 
