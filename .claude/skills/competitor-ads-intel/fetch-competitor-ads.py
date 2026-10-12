@@ -142,11 +142,19 @@ def main():
             if len(kept) >= a.max:
                 break
             used += 1
-            try:
-                data = urllib.request.urlopen(urllib.request.Request(r["imageUrls"][0], headers=UA), timeout=60).read()
-                img = Image.open(io.BytesIO(data))
-                img.load()
-            except Exception:
+            img = None
+            # Some regional CDN hosts (e.g. scontent.fosu2-2.fna.fbcdn.net) resolve IPv6-only;
+            # the signed path also works on the generic scontent.xx.fbcdn.net host.
+            src = r["imageUrls"][0]
+            for u in (src, re.sub(r"//scontent[^/]*\.fbcdn\.net/", "//scontent.xx.fbcdn.net/", src)):
+                try:
+                    data = urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=60).read()
+                    img = Image.open(io.BytesIO(data))
+                    img.load()
+                    break
+                except Exception:
+                    img = None
+            if img is None:
                 failed += 1
                 continue
             if min(img.size) < 200:
