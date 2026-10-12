@@ -6,13 +6,13 @@ Remakes of ads the person likes, editable in Paper, with the photography from Pa
 
 ## Folder structure
 
-Every brand has **two compartments**, and `/brand` creates both. `/brand` writes `intelligence/`; every other skill writes only into `generation/`. Multiple brands can coexist in the same project.
+Every brand has **two compartments**, and `/paper-ads-prep` creates both. `/paper-ads-prep` writes `intelligence/`; every other skill writes only into `generation/`. Multiple brands can coexist in the same project.
 
 ```
 brands/
   [brand-name]/
 
-    intelligence/                  ← what the brand IS. Written by /brand.
+    intelligence/                  ← what the brand IS. Written by /paper-ads-prep.
       visual-guidelines.md              ← visual identity + PROMPT MODIFIER (brand-detection marker)
       brand-strategy.md                 ← personality/values, audience, competitive landscape
       counter-positioning.md            ← counter-position + value proposition package
@@ -32,6 +32,8 @@ brands/
       context-uploads/                  ← raw archive of every "add this to my brand context" drop
 
     generation/                    ← what the brand MAKES.
+      competitor-ads/
+        [YYYY-MM-DD]/                   competitors.json · summary.json · [competitor]/01.jpg … index.json
       paper-ads/
         ad-references/                  ← inbox: drop the ads you want remade here
         [YYYY-MM-DD]/
@@ -41,7 +43,7 @@ brands/
 
 **`intelligence/visual-guidelines.md` is the brand-detection marker.** Its presence is what every downstream skill uses to recognise a real brand.
 
-There is no canonical folder list. The tree is derived from every installed skill's `outputs:` and `inboxes:` frontmatter. `python3 .claude/skills/brand/brand.py --scaffold "[brand-name]"` creates the whole tree, and each skill also creates its own folders on first use.
+There is no canonical folder list. The tree is derived from every installed skill's `outputs:` and `inboxes:` frontmatter. `python3 .claude/skills/paper-ads-prep/brand.py --scaffold "[brand-name]"` creates the whole tree, and each skill also creates its own folders on first use.
 
 ---
 
@@ -51,7 +53,8 @@ Each skill lives in `.claude/skills/<name>/` with its `SKILL.md` and its scripts
 
 | Command | What it does |
 |---------|-------------|
-| `/brand` | Build the brand's operating system under `intelligence/`: strategy, counter-positioning, palette, typography, logo, voice, context capsule, product catalog, avatars, offers. Also scaffolds `generation/`. Re-run any time to fold in new products, assets or facts |
+| `/paper-ads-prep` | Build the brand's operating system under `intelligence/`: strategy, counter-positioning, palette, typography, logo, voice, context capsule, product catalog, avatars, offers. Also scaffolds `generation/`. Re-run any time to fold in new products, assets or facts |
+| `/competitor-ads-intel` | Finds the top competitors, confirms them, pulls their image ads with Apify, and lays them out in Paper, one page per competitor, for the person to pick from |
 | `/paper-ads` | Remakes each reference ad for the brand in Paper: a text-free photographic plate plus independently editable text and UI, in 4:5 and 9:16, one row per reference |
 
 ---
@@ -93,6 +96,6 @@ Pattern: `[slug]-NN.ext` — e.g. `camp-shirt-01.jpg`, `camp-shirt-02.jpg`
 - `[slug]` is the product identifier: lowercase, hyphenated, 2 or more tokens (`performance-running-socks`)
 - `NN` is a zero-padded sequence number per product, starting at `01`. Every angle, variant or crop of the same product shares the `[slug]` and increments `NN`
 - Files that share a `[slug]` group as one product in the catalog, so identical leading tokens matter
-- `products.json` is the index over this folder: each entry is `{slug, name, images:[…], product_url, …}`. Rebuild it with `python3 .claude/skills/brand/brand.py --index` after dropping files in by hand
+- `products.json` is the index over this folder: each entry is `{slug, name, images:[…], product_url, …}`. Rebuild it with `python3 .claude/skills/paper-ads-prep/brand.py --index` after dropping files in by hand
 - Avoid mixing separators within a brand folder (do not use both `_` and `-`). Stick to `-`
 - Avoid concatenating slug tokens (`tongkatali-02.webp` will not group with `tongkat-ali-01.jpg`). Hyphenate identically across every file for a product

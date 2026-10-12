@@ -1,14 +1,14 @@
 # Color Palette — Format Reference
 
-> **What this is.** The structure `/brand` writes to
+> **What this is.** The structure `/paper-ads-prep` writes to
 > `intelligence/color-palette.json`. It captures the brand's colour tokens as
 > structured data — each colour's **name**, **hex**, and **what it's used for** —
-> read during `/brand` from the **web scrape of the brand's website** (live
+> read during `/paper-ads-prep` from the **web scrape of the brand's website** (live
 > computed styles via `extract-site-colors.js`), or from brand docs / stated
-> guidelines. If the scraper can't read the site, `/brand` asks the user for a
+> guidelines. If the scraper can't read the site, `/paper-ads-prep` asks the user for a
 > **screenshot of their colour palette** and reads the hexes from that. It is a
 > structured companion to the human-readable colour section in
-> `visual-guidelines.md`, and is fully editable — `/brand` produces a complete
+> `visual-guidelines.md`, and is fully editable — `/paper-ads-prep` produces a complete
 > best-effort first pass and the user corrects it.
 
 ## Schema
@@ -65,7 +65,7 @@ compatibility but are always written as empty arrays:
 ## Relationship to visual-guidelines.md
 
 `color-palette.json` is the **raw, exact colour-token list** (extracted by
-`/brand`, machine-readable). The **Colour palette** section of
+`/paper-ads-prep`, machine-readable). The **Colour palette** section of
 `visual-guidelines.md` is the **human-readable** version, and the **Prompt
 modifier** paragraph is where the load-bearing hexes get baked into a
 generation-ready instruction. Keep the two consistent: the hexes in the JSON and

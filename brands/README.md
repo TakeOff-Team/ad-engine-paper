@@ -2,7 +2,7 @@
 
 Your brand folders go here, one folder per brand.
 
-Don't create folders manually. Run `/brand` from this project root and Claude Code
+Don't create folders manually. Run `/paper-ads-prep` from this project root and Claude Code
 will research the brand, build its operating system (visual guidelines, strategy,
 voice, colour palette, typography), index the product catalog, and
 scaffold the right folder structure for you. You can also say "add this to my brand
@@ -10,7 +10,7 @@ context" any time to fold a new product, asset, or fact into an existing brand â
 raw drop is archived under `intelligence/context-uploads/` and its substance is
 folded into the brand's docs.
 
-After `/brand` finishes you'll have:
+After `/paper-ads-prep` finishes you'll have:
 
 ```
 brands/
@@ -33,6 +33,7 @@ brands/
       fonts/
       context-uploads/       (raw archive of every "add this to my brand context" drop)
     generation/
+      competitor-ads/ (competitors' image ads, one folder per competitor per pull)
       paper-ads/      (the built ads, one folder per batch; ad-references/ is where you drop the ads you want remade)
 ```
 

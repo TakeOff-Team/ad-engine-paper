@@ -1,10 +1,10 @@
 # Offer Library — Format Reference
 
-> **What this is.** The structure `/brand` writes to `intelligence/offers.md`.
+> **What this is.** The structure `/paper-ads-prep` writes to `intelligence/offers.md`.
 > It is the **closed list of commercial offers** any downstream skill may put in
 > front of a customer. `/paper-ads` takes every offer from here and is
 > forbidden from inventing one; any other copy draws on the same list.
-> Derived during `/brand` from the product catalog, the live site (bundles,
+> Derived during `/paper-ads-prep` from the product catalog, the live site (bundles,
 > subscription terms, guarantees, shipping thresholds) and anything the user
 > states directly. Fully editable, and expected to change as the brand's
 > merchandising does.
@@ -96,7 +96,7 @@ doesn't suggest one, the build uses the default.
 - **Never invent an offer, a price, a discount code, or a guarantee.** Where the
   research is ambiguous — a bundle exists but its price isn't visible, a
   guarantee is implied but never stated — ask the user directly rather than
-  filling the gap. This is the one file in `/brand`'s output where a plausible
+  filling the gap. This is the one file in `/paper-ads-prep`'s output where a plausible
   guess creates a legal and commercial liability, not just a bad document.
 - **Every claim in an offer must be supportable**, same bar as
   `CLAUDE.md` guardrail 6.

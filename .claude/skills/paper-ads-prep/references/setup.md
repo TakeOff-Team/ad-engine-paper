@@ -1,7 +1,7 @@
 # setup.json: format reference
 
-> **What this is.** The small file `/brand` writes to `intelligence/setup.json`.
-> Nothing in it is asked: `/brand` works it out and says what it concluded.
+> **What this is.** The small file `/paper-ads-prep` writes to `intelligence/setup.json`.
+> Nothing in it is asked: `/paper-ads-prep` works it out and says what it concluded.
 > `/paper-ads` reads it before it does anything that costs money or needs a
 > product photo.
 

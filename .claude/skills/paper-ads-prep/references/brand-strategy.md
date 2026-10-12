@@ -1,6 +1,6 @@
 # Brand Strategy — Format Reference
 
-> **What this is.** The exact structure `/brand` writes to
+> **What this is.** The exact structure `/paper-ads-prep` writes to
 > `intelligence/brand-strategy.md`. This is the **strategic** half of the
 > brand: who the brand is, who it's for, and where it sits in the market. (The
 > **visual** half — colour, type, photography, packaging, ad style, and the
@@ -8,7 +8,7 @@
 >
 > Write clean markdown: `#` title, `##` for each section, `###` for each
 > question, answers as prose or tight bullet lists, one blank line between
-> blocks. Fill every field from the `/brand` research. Where information is
+> blocks. Fill every field from the `/paper-ads-prep` research. Where information is
 > genuinely missing, note the gap rather than guessing.
 
 ---

@@ -1,17 +1,17 @@
 # Typography & Design System — Format Reference
 
-> **What this is.** The structure `/brand` writes to
+> **What this is.** The structure `/paper-ads-prep` writes to
 > `intelligence/typography.json`. It captures the brand's **typefaces** (which
 > fonts, in which roles, from which source) and any **design-system** evidence
-> found during setup. Read during `/brand` from the **web read of the brand's
+> found during setup. Read during `/paper-ads-prep` from the **web read of the brand's
 > site** — live computed `font-family` plus the `@font-face` / webfont-provider
 > links via `extract-site-fonts.js` (the same rendered-font read the *WhatFont*
 > extension does, done page-wide) — backed by a web search for the brand's
 > published design-system / typography documentation. If the automated read
-> fails, `/brand` asks the user to run the **WhatFont** Chrome extension on the
+> fails, `/paper-ads-prep` asks the user to run the **WhatFont** Chrome extension on the
 > live site (or send a screenshot) and reports the families from that. It is a
 > structured companion to the **Typography** section of `visual-guidelines.md`,
-> and is fully editable — `/brand` produces a complete best-effort first pass and
+> and is fully editable — `/paper-ads-prep` produces a complete best-effort first pass and
 > the user corrects it.
 
 ## Schema
@@ -23,7 +23,7 @@ entries, each `{ "role", "family", "description", "fallback", "source", "weights
 ```json
 {
   "brand": "My Brand",
-  "note": "Auto-detected by /brand from the live site — AI can misread fonts, so please verify the typefaces, weights, and any design-system link before relying on them, and correct them in the brand files.",
+  "note": "Auto-detected by /paper-ads-prep from the live site — AI can misread fonts, so please verify the typefaces, weights, and any design-system link before relying on them, and correct them in the brand files.",
   "fonts": [
     {
       "role": "heading",
@@ -65,7 +65,7 @@ entries, each `{ "role", "family", "description", "fallback", "source", "weights
 ## Rules
 
 - **`note` (always include):** a short verification caveat, kept verbatim, e.g.
-  *"Auto-detected by /brand from the live site — AI can misread fonts, so please
+  *"Auto-detected by /paper-ads-prep from the live site — AI can misread fonts, so please
   verify the typefaces, weights, and any design-system link before relying on
   them, and correct them in the brand files."* Fonts are inferred from the
   rendered page (or a screenshot / the user's report), which a model can get
@@ -95,7 +95,7 @@ entries, each `{ "role", "family", "description", "fallback", "source", "weights
   `serif`, `monospace`).
 - **`source`:** where the font comes from — `google-fonts`, `adobe-fonts`
   (Typekit), `self-hosted`, `system`, or `unknown`. Derive it from the
-  `links`/`loaded` evidence the extractor returns. This decides whether `/brand`
+  `links`/`loaded` evidence the extractor returns. This decides whether `/paper-ads-prep`
   can auto-download it: **only `google-fonts` families can be fetched into
   `fonts/`** (via `brand.py --fetch-fonts`); licensed/foundry faces must be added
   by hand.
@@ -115,8 +115,8 @@ entries, each `{ "role", "family", "description", "fallback", "source", "weights
 ## Relationship to visual-guidelines.md & the fonts folder
 
 `typography.json` is the **raw, exact typeface list + design-system pointer**
-(extracted by `/brand`, machine-readable). The **Typography** section of
+(extracted by `/paper-ads-prep`, machine-readable). The **Typography** section of
 `visual-guidelines.md` is the human-readable version that image and ad skills
-read directly. The `fonts/` folder holds the actual font *files*: `/brand`
+read directly. The `fonts/` folder holds the actual font *files*: `/paper-ads-prep`
 auto-downloads open-license (`google-fonts`) families there, and the user drops
 licensed faces in by hand. Keep the font names consistent across all three.

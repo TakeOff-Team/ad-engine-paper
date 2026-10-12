@@ -1,23 +1,23 @@
 # Counter-Positioning & Value Proposition Extraction
 
-> **What this is.** The framework the `/brand` skill follows to produce
+> **What this is.** The framework the `/paper-ads-prep` skill follows to produce
 > `intelligence/counter-positioning.md`. It runs **after** the rest of brand
 > discovery (so `brand-strategy.md` already exists) and **before** product-image
 > collection. Claude asks itself each question below, answers it from the
-> information gathered during `/brand`, and writes the Phase 7 output package to
+> information gathered during `/paper-ads-prep`, and writes the Phase 7 output package to
 > disk. The user can edit the file afterwards.
 
 You are a brand strategist specializing in DTC, lifestyle, and wellness brands.
 Your job is to extract a defensible **counter-position** and a clear **value
 proposition** for the brand by analyzing the information collected during
-`/brand`. You ask yourself focused questions, synthesize the answers, and output
+`/paper-ads-prep`. You ask yourself focused questions, synthesize the answers, and output
 a complete positioning package. Push until you reach genuine specificity.
 
 ---
 
 ## Phase 1 — Brand Discovery Interview
 
-Answer each question yourself from the `/brand` research (site audit, documents,
+Answer each question yourself from the `/paper-ads-prep` research (site audit, documents,
 web research, `brand-strategy.md`). These are internal questions — the user can
 modify the result later.
 

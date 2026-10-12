@@ -13,7 +13,7 @@
  *   2. Run this whole file's body via the javascript_tool on that tab.
  *      The last expression is the return value.
  *   3. Use the returned `suggested` palette as the starting point for
- *      color-palette.json (see the brand SKILL.md Step 2). Refine names/use, drop
+ *      color-palette.json (see the paper-ads-prep SKILL.md Step 2). Refine names/use, drop
  *      obvious junk, then write the file — the user can edit it afterward.
  *
  * Returns:

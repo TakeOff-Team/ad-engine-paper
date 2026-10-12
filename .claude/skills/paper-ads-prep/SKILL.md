@@ -1,24 +1,29 @@
 ---
-name: brand
-description: Run when the user wants to set up their brand, add their brand to the project, provides a website URL / brand guidelines / positioning doc for onboarding, OR says "add this to my brand context" (a product, image, doc, logo, font, or fact to fold into an existing brand). Works from a website URL, brand documents, or a manual description. Builds the brand's operating system under brands/[brand-name]/intelligence/: strategy, counter-positioning, colour palette + typography + logo read off the live site, brand voice, the customers it sells to (avatars), real offers, a portable context capsule, and a product catalog with photos — plus incrementally adds new products/assets/facts to an existing brand at any time. Everything downstream (static ads) is personalised to the brand from the start. Multiple brands can be set up and run side-by-side.
+name: paper-ads-prep
+description: "Gets a brand ready for /paper-ads. Run it first, once per brand: it takes stock of what the project already knows about the business (an AI OS or context folder counts), checks it has everything good ads need (who buys and why, their pain points in their own words, the product and its photos, real offers, the logo, colours and fonts), fills the gaps from the brand's website and the web, and asks the person only for what's still missing or weak. Builds the brand brain under brands/[brand-name]/intelligence/ that /competitor-ads-intel and /paper-ads read. Also folds new products, images, docs and facts into an existing brand at any time (\"add this to my brand context\")."
 group: Core
-summary: Point it at a URL, get a brand brain. Run this first. Also folds new products, images, docs and facts into an existing brand at any time
+summary: Gets your brand ready for /paper-ads: checks what it already knows, fills the gaps, asks only for what's missing. Run this first
 version: 1.0.0
 outputs: []
 requires: []
 ---
 
-# Brand Setup & Brand Operating System
+# Paper ads prep: get the brand ready for ads
 
 > **Where brands live.** A brand's folder is `04-Brand/clients/<brand>/` when the
 > project has a `04-Brand/clients/` folder, otherwise `brands/<brand>/`. Every
 > `brands/<brand>/` path in this file means that folder. Read
-> `.claude/skills/brand/references/system.md` once per session: it holds the
+> `.claude/skills/paper-ads-prep/references/system.md` once per session: it holds the
 > rules every skill in this system follows.
 
 
-`/brand` builds and maintains a brand's **operating system** — the shared brain
-every other skill reads so anything generated is on-brand. It runs in two modes:
+`/paper-ads-prep` makes sure the brand has everything good ads need, then builds
+the brand brain `/competitor-ads-intel` and `/paper-ads` read. Many people arrive
+having already written a lot about their business (an AI OS or context folder),
+so the job is **take inventory first, fill gaps second, ask last**: never redo
+what's there, never ask what the project or the website already answers.
+
+It runs in two modes:
 
 - **Full setup** — a new brand from a website URL, brand documents, or a manual
   description. Produces the complete `intelligence/` folder below.
@@ -34,8 +39,8 @@ Otherwise run **Full setup**.
 
 ## Output — the brand folder
 
-A brand has two compartments and `/brand` creates both (Step 2). Everything
-`/brand` itself writes lands in `intelligence/`:
+A brand has two compartments and `/paper-ads-prep` creates both (Step 2). Everything
+`/paper-ads-prep` itself writes lands in `intelligence/`:
 
 ```
 brands/[brand-name]/intelligence/
@@ -78,8 +83,8 @@ brands/[brand-name]/intelligence/
 
 ### The `generation/` compartment
 
-`/brand` also creates the brand's second compartment, `generation/` — where every
-*other* skill writes. `/brand` never puts files in it; it creates the empty
+`/paper-ads-prep` also creates the brand's second compartment, `generation/` — where every
+*other* skill writes. `/paper-ads-prep` never puts files in it; it creates the empty
 folders so a brand's shape is complete from day one:
 
 ```
@@ -96,7 +101,7 @@ before any skill has run. Every other folder is an **outbox**: the skill creates
 There is no canonical list — every skill declares its own `outputs:` and
 `inboxes:` in its `SKILL.md` frontmatter, and `brand.py` derives the scaffold
 from whatever skills are installed. Add a skill folder and its folders scaffold;
-remove one and nothing else breaks. `python3 .claude/skills/brand/brand.py
+remove one and nothing else breaks. `python3 .claude/skills/paper-ads-prep/brand.py
 --validate` checks every declaration.
 
 **Format references** — read each as you build the matching file; they hold the
@@ -156,14 +161,52 @@ each source you used at the end of `brand-context.md`, so it's clear where
 the brand came from. **Never ask a question the
 project already answers.**
 
-## Step 0a — Check the tools (silent, then one or two sentences)
+## Step 0a — Ad inventory: what's there, what's missing
 
-Read `.claude/skills/brand/references/tools.md` and check the tools the cheap way
+Before researching anything, check what the project and any existing brand
+folder already cover against what good ads need. These are the **ad-critical
+inputs**:
+
+| Input | Good enough when | Lands in |
+|---|---|---|
+| **Who buys** | 2 to 5 distinct people, separated by *why* they buy | `avatars.md` |
+| **Their pain points, in their words** | real phrases from reviews, calls, DMs or the founder, not marketing abstractions | `avatars.md` |
+| **The product** | what it is, what it does, the facts and numbers ads can use | `products.json` |
+| **Product photos** | a clean packshot, plus one showing size (in a hand, on a body) for physical products | `product-images/` |
+| **Real offers** | prices, bundles, codes, guarantees that are live right now | `offers.md` |
+| **The look** | logo file, colours, fonts | `logos/`, `color-palette.json`, `typography.json` |
+| **The voice** | how the brand actually writes | `brand-voice.md` |
+
+Judge quality, not just presence. Pain points that are all guesses, avatars
+that are demographics ("women 25 to 45") instead of reasons, or a product with
+no facts are **weak**, and weak counts as missing.
+
+Then tell the person in one short message what you have and what you'll fill:
+
+> "Here's what I've already got from your project: who your customers are, your
+> offers, your logo. I'll get your colours, fonts, product photos and voice from
+> your site. One thing I can't find well enough on my own: the exact words your
+> customers use for their problem. Can you give me five to ten, voice-to-text is
+> perfect? Or drop in reviews, call transcripts or DMs."
+
+**Ask only for what's still missing after the project and the website,** and
+only for inputs on the table above. Everything else is researched, not asked.
+Usually that's one question, about customer language; often it's none. Ask it
+once, in one message, and accept "I don't have that" by filling from public
+reviews and marking it as such. If the brand brain already exists and nothing
+ad-critical is missing or weak, say so and stop: "You're ready. Run
+`/competitor-ads-intel` next."
+
+## Step 0b — Check the tools (silent, then one or two sentences)
+
+Read `.claude/skills/paper-ads-prep/references/tools.md` and check the tools the cheap way
 it describes, without spending anything. Check Composio as well as direct
 connections before calling anything missing. Then tell the person, in one or two
 friendly sentences (no table, no warning signs; wording in `tools.md`): **Paper**
-is where the ads get built and it makes the photos; **Firecrawl**, if connected,
-reads their site more cleanly, and if not, it's an optional extra for later. Add:
+is where the ads get built and it makes the photos; **Apify** is what pulls
+competitors' ads in the next step (`/competitor-ads-intel`), so if it isn't
+connected, give the one plain line to connect it now; **Firecrawl**, if
+connected, reads their site more cleanly, and if not, it's an optional extra. Add:
 "If you'd ever rather make photos with Higgsfield or fal, just say so."
 
 Mention nothing else. Perplexity and Claude in Chrome are checked silently and
@@ -281,7 +324,7 @@ sets this brand apart. If none are clear, note the gap; don't ask.
 
 Create both compartments first — one command, from the project root:
 ```bash
-python3 .claude/skills/brand/brand.py --scaffold "[brand-name]"
+python3 .claude/skills/paper-ads-prep/brand.py --scaffold "[brand-name]"
 ```
 
 This creates `brands/[brand-name]/intelligence/` (`product-images/`, `logos/`,
@@ -308,7 +351,7 @@ screenshot and branding formats), otherwise the built-in web fetch.
 
 1. **Live computed styles (preferred — a real read).** If a Chrome browser is
    connected, with the homepage loaded run the entire body of
-   `.claude/skills/brand/extract-site-colors.js` via `javascript_tool` on that
+   `.claude/skills/paper-ads-prep/extract-site-colors.js` via `javascript_tool` on that
    tab. It returns `{ suggested, ranked, signals }` read from the rendered DOM.
    Use `suggested` as the spine; fold each colour into `accent` or `neutral`.
 2. **Stated brand guidelines / docs.** If the user shared colour values, those
@@ -332,7 +375,7 @@ system**. Read `references/typography.md`, then write
 `./brands/[brand-name]/intelligence/typography.json`. Source in priority order:
 
 1. **Live computed fonts (preferred).** With a Chrome browser on the homepage,
-   run the entire body of `.claude/skills/brand/extract-site-fonts.js` via
+   run the entire body of `.claude/skills/paper-ads-prep/extract-site-fonts.js` via
    `javascript_tool`. It returns `{ suggested, ranked, signals, loaded, links }`
    — `suggested` is the role→family map; `loaded`/`links` set each font's
    `source` and `weights`.
@@ -352,7 +395,7 @@ are inferred — a model can misread them). Then collect the actual font files f
 open-license faces:
 
 ```bash
-cd ./brands/[brand-name]/intelligence && python3 ../../../.claude/skills/brand/brand.py --fetch-fonts "Inter,Playfair Display"
+cd ./brands/[brand-name]/intelligence && python3 ../../../.claude/skills/paper-ads-prep/brand.py --fetch-fonts "Inter,Playfair Display"
 ```
 
 Only `google-fonts` families resolve; licensed/foundry faces (Adobe, Monotype,
@@ -381,7 +424,7 @@ Source in priority order:
 
 1. **HTTP fetch (preferred — no browser needed).** Run:
    ```bash
-   cd ./brands/[brand-name]/intelligence && python3 ../../../.claude/skills/brand/brand.py --fetch-logo https://brand.com
+   cd ./brands/[brand-name]/intelligence && python3 ../../../.claude/skills/paper-ads-prep/brand.py --fetch-logo https://brand.com
    ```
    Tries schema.org JSON-LD `Organization.logo`, then a header/nav `<img>`, then
    the largest declared favicon — in that order — and downloads what it finds as
@@ -391,7 +434,7 @@ Source in priority order:
 2. **Live browser read (when the HTTP fetch finds nothing — a JS-rendered
    header, an inline SVG logo, or a bot-blocked site).** With a Chrome browser
    on the homepage, run the entire body of
-   `.claude/skills/brand/extract-site-logo.js` via `javascript_tool`. It returns
+   `.claude/skills/paper-ads-prep/extract-site-logo.js` via `javascript_tool`. It returns
    `suggested: { type, value, source }`:
    - `type: 'svg'` — `value` is already markup; write it directly to
      `logos/logo.svg` with the Write tool.
@@ -519,11 +562,11 @@ hyphens); then run the reindex in 6c.
 Run the scraper from inside `intelligence/` so images and `products.json` land
 correctly. **Preferred — exact product URLs:**
 ```bash
-cd ./brands/[brand-name]/intelligence && python3 ../../../.claude/skills/brand/brand.py --scrape https://brand.com --product-urls "https://brand.com/products/one,https://brand.com/products/two"
+cd ./brands/[brand-name]/intelligence && python3 ../../../.claude/skills/paper-ads-prep/brand.py --scrape https://brand.com --product-urls "https://brand.com/products/one,https://brand.com/products/two"
 ```
 **Best-sellers:**
 ```bash
-cd ./brands/[brand-name]/intelligence && python3 ../../../.claude/skills/brand/brand.py --scrape https://brand.com
+cd ./brands/[brand-name]/intelligence && python3 ../../../.claude/skills/paper-ads-prep/brand.py --scrape https://brand.com
 ```
 
 This writes flat images `product-images/[slug]-01.jpg …` and a catalog
@@ -534,14 +577,14 @@ product for free.
 non-Shopify): the HTML is walled but the image CDN usually isn't.
 1. **Browser gallery route (strongest)** — if a Chrome browser is connected: for
    each product URL, `navigate` to it, wait ~3s, run the entire body of
-   `.claude/skills/brand/extract-product-gallery.js` via `javascript_tool` (returns
+   `.claude/skills/paper-ads-prep/extract-product-gallery.js` via `javascript_tool` (returns
    `{ name, count, image_urls }`). Append `{ name, product_url, image_urls }` for
    each to `products-to-ingest.json` in `intelligence/`.
 2. **WebFetch route** — WebFetch each product page, extract name + all image URLs,
    write the same `products-to-ingest.json`.
 3. Download via the open CDN, then delete the temp file:
    ```bash
-   cd ./brands/[brand-name]/intelligence && python3 ../../../.claude/skills/brand/brand.py --ingest-file products-to-ingest.json
+   cd ./brands/[brand-name]/intelligence && python3 ../../../.claude/skills/paper-ads-prep/brand.py --ingest-file products-to-ingest.json
    ```
 
 Don't loop on a wall that won't budge — escalate to the next tier, then manual.
@@ -552,7 +595,7 @@ After the user drops images in by hand — or to reconcile the catalog with what
 actually on disk — rebuild `products.json` (preserving any enrichment already
 recorded):
 ```bash
-cd ./brands/[brand-name]/intelligence && python3 ../../../.claude/skills/brand/brand.py --index
+cd ./brands/[brand-name]/intelligence && python3 ../../../.claude/skills/paper-ads-prep/brand.py --index
 ```
 
 ### 6d — Enrich the catalog
@@ -584,9 +627,10 @@ Reddit, ad-library comments, the brand's own segment copy, and anything the
 project already holds (call transcripts, review exports, notes). Quote lines
 verbatim, tag each with its source (`review`, `call`, `founder`, `inferred`),
 and mark a gap rather than present a guess as a finding. Avatars are distinct
-on *why they buy*, never on demographics alone. **Don't interview the person
-for this.** Mention once, in the report, that they can drop in reviews or call
-transcripts any time with "add this to my brand context" to sharpen it.
+on *why they buy*, never on demographics alone. Use whatever customer words
+Step 0a collected; never ask a second time. Mention once, in the report, that
+they can drop in reviews or call transcripts any time with "add this to my
+brand context" to sharpen it.
 
 Then read `references/offers.md` and write
 `./brands/[brand-name]/intelligence/offers.md` — the closed list of offers any
@@ -632,15 +676,10 @@ what now exists.
 
 Then what happens next, in plain words:
 
-> "Next: find two or three ads you love, from any brand. Screenshots are fine.
-> Drop them into `generation/paper-ads/ad-references/` (or just paste them
-> here), then run `/paper-ads` and I'll remake each one for your brand, fully
-> editable in Paper."
-
-If the project already has ads in that folder, say how many you found instead.
-Add, in one line, where good ads are easy to find: the Meta Ad Library
-(facebook.com/ads/library: search a brand you admire and look at ads that have
-run for months), Pinterest, or ads that stopped their own scroll.
+> "Your brand is ready for ads. Next, run `/competitor-ads-intel`: I'll find
+> your top competitors, pull every image ad they're running, and put them in
+> Paper so you can pick the ones worth remaking. Already have ads you love?
+> Paste them in and run `/paper-ads` instead."
 
 ---
 
@@ -661,7 +700,7 @@ built from. This runs *alongside* the refinement below — it never replaces it.
   document, screenshot, line sheet — anything with no dedicated home of its own).
   From the brand's `intelligence/`:
   ```bash
-  cd ./brands/[brand-name]/intelligence && python3 ../../../.claude/skills/brand/brand.py --save-context "[path-to-file]" --move
+  cd ./brands/[brand-name]/intelligence && python3 ../../../.claude/skills/paper-ads-prep/brand.py --save-context "[path-to-file]" --move
   ```
   Use `--move` for a throwaway chat upload under `uploads/` (its permanent home
   is now `context-uploads/`); drop `--move` to copy a file the user keeps

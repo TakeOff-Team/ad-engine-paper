@@ -15,7 +15,7 @@
  *   2. Run this whole file's body via the javascript_tool on that tab.
  *      The last expression is the return value.
  *   3. Use the returned `suggested` role map as the starting point for
- *      typography.json (see the brand SKILL.md Step 2b). Cross-check `loaded`
+ *      typography.json (see the paper-ads-prep SKILL.md Step 2b). Cross-check `loaded`
  *      and `links` to record each family's source + downloadable URL.
  *
  * Returns:

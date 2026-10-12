@@ -1,8 +1,8 @@
 # Ad Engine: Paper, system rules
 
-Read once per session by `/brand` and `/paper-ads`.
+Read once per session by `/paper-ads-prep`, `/competitor-ads-intel` and `/paper-ads`.
 
-Drop in ads you like and get them remade for your brand: on-brand, grounded in the brand's real facts and offers, built in Paper so every word stays editable. `/brand` builds the brand's operating system once; `/paper-ads` remakes each reference ad as a text-free photo plus independently editable text and UI, in 4:5 and 9:16, one row per reference on the canvas.
+Drop in ads you like and get them remade for your brand: on-brand, grounded in the brand's real facts and offers, built in Paper so every word stays editable. `/paper-ads-prep` gets the brand ready once; `/competitor-ads-intel` puts every image ad the brand's competitors run onto the Paper canvas so the person can pick; `/paper-ads` remakes each reference ad as a text-free photo plus independently editable text and UI, in 4:5 and 9:16, one row per reference on the canvas.
 
 It is not much of a codebase on purpose. The skills are the product; the brand's own files are the substrate they read.
 
@@ -11,9 +11,9 @@ It is not much of a codebase on purpose. The skills are the product; the brand's
 **Each skill describes itself. Nothing outside a skill keeps a list of skills.**
 
 - Every skill's `SKILL.md` frontmatter declares its `outputs:` and `inboxes:` (folders under `brands/<brand>/generation/`), `requires:` (hard needs), `optional:` (soft needs it degrades without), and a `version:`. Scaffolding, validation and the docs tables all derive from these declarations.
-- **Skills create their own folders on first use** (`mkdir -p` for each declared path). `/brand`'s scaffold is a convenience, not a prerequisite.
-- Everything reads the brand intelligence `/brand` writes. The shapes of the `intelligence/` files are the system's internal API; change them only deliberately.
-- `python3 .claude/skills/brand/brand.py --validate` checks every declaration; `--docs` regenerates the skill tables between markers in `README.md` and this file.
+- **Skills create their own folders on first use** (`mkdir -p` for each declared path). `/paper-ads-prep`'s scaffold is a convenience, not a prerequisite.
+- Everything reads the brand intelligence `/paper-ads-prep` writes. The shapes of the `intelligence/` files are the system's internal API; change them only deliberately.
+- `python3 .claude/skills/paper-ads-prep/brand.py --validate` checks every declaration; `--docs` regenerates the skill tables between markers in `README.md` and this file.
 
 ## Who this is for
 
@@ -36,7 +36,7 @@ person never feels lost or scared off:
 ## How this system thinks
 
 - **Remake what already works.** The person brings ads they like; picking them takes human taste, so the system never picks for them. Each remake keeps the reference's format and its idea, and rewrites every word for the brand from its real facts. We are not an ad agency: no angle strategy, no media plan, no research the person didn't ask for.
-- **Simple on purpose.** Two skills. Every extra question or step has to earn its place for someone who has barely used AI.
+- **Simple on purpose.** Three skills, run in order. Every extra question or step has to earn its place for someone who has barely used AI.
 - **The image model never draws a word.** It makes a text-free photograph. Everything a customer reads is an editable layer in Paper.
 - **Paper is the deliverable.** Not a mirror of a render. If Paper is not connected, the build stops and says so.
 - **Never show a subpar ad.** `preflight.js` measures every artboard straight out of Paper (overlaps, clipped text, dead crops, type under the floor, safe zones, the 9:16 rail, empty bands) and the build is not finished until it reports zero failures. Eyes are for what it cannot measure: a cut-off head, a figure that blends in, a line that reads wrong.
@@ -45,17 +45,19 @@ person never feels lost or scared off:
 
 ## Repository map
 
-- `.claude/skills/brand/`: point it at a URL, get a brand brain. **Run this first.** It reads the project's own files first, runs a short tool check (Paper, Firecrawl) and asks no setup questions. Photos default to Paper. It scaffolds every folder.
-- `.claude/skills/paper-ads/`: drop in ads you like and it remakes them, in Paper, and `preflight.js`, the measuring script. Conventions for all skills in `.claude/skills/brand/references/conventions.md`.
+- `.claude/skills/paper-ads-prep/`: gets the brand ready. **Run this first.** It takes stock of what the project already knows, checks the ad-critical inputs, fills gaps from the site and the web, and asks only for what's missing. Photos default to Paper. It scaffolds every folder.
+- `.claude/skills/competitor-ads-intel/`: finds the top competitors, confirms them, pulls their image ads with Apify, and lays them out in Paper, one page per competitor.
+- `.claude/skills/paper-ads/`: drop in ads you like and it remakes them, in Paper, and `preflight.js`, the measuring script. Conventions for all skills in `.claude/skills/paper-ads-prep/references/conventions.md`.
 
 <!-- skills-table:start -->
 | | |
 |---|---|
-| **`/brand`** | Point it at a URL, get a brand brain. Run this first. Also folds new products, images, docs and facts into an existing brand at any time |
+| **`/paper-ads-prep`** | Gets your brand ready for /paper-ads: checks what it already knows, fills the gaps, asks only for what's missing. Run this first |
+| **`/competitor-ads-intel`** | Finds your competitors, pulls every image ad they run into Paper, one page each, so you can pick the ones worth remaking |
 | **`/paper-ads`** | Drop in ads you like; it remakes each one for your brand in Paper, every word editable, in 4:5 and 9:16, measured before delivery |
 <!-- skills-table:end -->
 
-- The brand folder (`04-Brand/clients/[brand]/` in a vault that has one, otherwise `brands/[brand]/`): the context substrate: `intelligence/` (identity, strategy, customers, commercial files, setup, learnings) and `generation/` (versioned outputs). Created by `/brand`, never by hand. See `brands/README.md`.
+- The brand folder (`04-Brand/clients/[brand]/` in a vault that has one, otherwise `brands/[brand]/`): the context substrate: `intelligence/` (identity, strategy, customers, commercial files, setup, learnings) and `generation/` (versioned outputs). Created by `/paper-ads-prep`, never by hand. See `brands/README.md`.
 
 ## Generation
 
@@ -63,11 +65,11 @@ The brand's **prompt modifier** (`visual-guidelines.md`) opens every image promp
 
 ## Tools
 
-Best tool first, fallback always, the person told once and kindly. Tools can be connected directly or through Composio; check both before calling anything missing. The cheap way to check each tool, the Composio check and the connect lines are in `.claude/skills/brand/references/tools.md`. Only Paper is required.
+Best tool first, fallback always, the person told once and kindly. Tools can be connected directly or through Composio; check both before calling anything missing. The cheap way to check each tool, the Composio check and the connect lines are in `.claude/skills/paper-ads-prep/references/tools.md`. Only Paper is required.
 
 ## Guardrails (non-negotiable)
 
-1. **Nothing is spent without an explicit yes.** Show the cost before the first paid call, for fal dollars, Higgsfield credits and Paper generations alike, 
+1. **Nothing is spent without an explicit yes.** Show the cost before the first paid call, for fal dollars, Higgsfield credits and Paper generations alike, and for Apify pulls (say the number; ask when it's over a dollar). 
 2. Offers come from `intelligence/offers.md` by ID; claims must be supportable by `brands/[brand]/intelligence/` content. Compliance rules in `brand-voice.md` are hard constraints, and no style or conversion rule may harden a health claim past what `intelligence/` supports. Truth outranks voice, which outranks everything else.
 3. A reference ad contributes its format and its idea. Every word is rewritten for the brand; never another brand's name, product, claims, people, likeness or distinctive lines.
 4. No em dashes in any line a customer reads.
@@ -78,7 +80,7 @@ Best tool first, fallback always, the person told once and kindly. Tools can be 
 
 ## Starting state
 
-- **First move: `/brand <url>`.**
-- **Then references:** two or three ads the person loves, dropped into `generation/paper-ads/ad-references/` or pasted into the chat.
-- **Then `/paper-ads`.** Every new batch after that is just references and `/paper-ads`.
+- **First move: `/paper-ads-prep <url>`.**
+- **Then `/competitor-ads-intel`:** their competitors' ads land in Paper; the person says the numbers they like. (Already have ads they love? They can paste them in and skip this.)
+- **Then `/paper-ads`.** Every new batch after that is `/competitor-ads-intel` (or ads they found) and `/paper-ads`.
 - Chat is plain language, written for someone who has barely used AI (see **Who this is for**). No step codes, no schema names, no file names unless the person needs to open one. Explain any term of art the first time it appears (a reference is an ad you want remade; a plate is the photo with no words on it). Every step closes with a short summary plus what the person does next.

@@ -1,11 +1,11 @@
 # Avatars — Format Reference
 
-> **What this is.** The structure `/brand` writes to
+> **What this is.** The structure `/paper-ads-prep` writes to
 > `intelligence/avatars.md`. Where `brand-strategy.md` sketches the target
 > audience in the abstract, this file names the **three to five specific people**
 > the brand sells to, in enough detail to write copy at one of them. It is the
 > file `/paper-ads` writes ad copy against, and the one that decides an
-> ad's point of view. Derived during `/brand` from the research
+> ad's point of view. Derived during `/paper-ads-prep` from the research
 > (reviews, ad-library comments, the About page, the brand's own segment
 > language) and fully editable.
 

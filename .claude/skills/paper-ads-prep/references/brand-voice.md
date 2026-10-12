@@ -1,11 +1,11 @@
 # Brand Voice — Format Reference
 
-> **What this is.** The structure `/brand` writes to
+> **What this is.** The structure `/paper-ads-prep` writes to
 > `intelligence/brand-voice.md`. Where `brand-strategy.md` captures *who* the
 > brand is and `visual-guidelines.md` captures *how it looks*, this file captures
 > **how the brand writes** — the load-bearing input for every skill that
 > generates copy: `/paper-ads` headlines, body copy
-> and any on-image text. It is derived during `/brand` from
+> and any on-image text. It is derived during `/paper-ads-prep` from
 > the same research (site hero + product-page copy, About page, ad-library
 > captions, founding story) and is fully editable.
 

@@ -48,35 +48,35 @@ the right place.
 
 Usage:
   # Create the folder tree first, from the project root:
-  python3 .claude/skills/brand/brand.py --scaffold "Blue Elephant"
+  python3 .claude/skills/paper-ads-prep/brand.py --scaffold "Blue Elephant"
 
   cd ./brands/[brand-name]/intelligence
 
   # Download top best-sellers only:
-  python3 ../../../.claude/skills/brand/brand.py --scrape https://brand.com
+  python3 ../../../.claude/skills/paper-ads-prep/brand.py --scrape https://brand.com
 
   # Download specific products by exact URL (preferred):
-  python3 ../../../.claude/skills/brand/brand.py --scrape https://brand.com \
+  python3 ../../../.claude/skills/paper-ads-prep/brand.py --scrape https://brand.com \
       --product-urls "https://brand.com/products/camp-shirt,https://brand.com/products/chino"
 
   # WebFetch/browser fallback for bot-protected sites (Akamai/Cloudflare, e.g. Nike):
   # gather names + CDN image URLs, write them to a JSON file, then:
-  python3 ../../../.claude/skills/brand/brand.py --ingest-file products-to-ingest.json
+  python3 ../../../.claude/skills/paper-ads-prep/brand.py --ingest-file products-to-ingest.json
 
   # Rebuild the catalog index from images already on disk:
-  python3 ../../../.claude/skills/brand/brand.py --index
+  python3 ../../../.claude/skills/paper-ads-prep/brand.py --index
 
   # Fetch the site's logo into logos/ (JSON-LD → header <img> → favicon):
-  python3 ../../../.claude/skills/brand/brand.py --fetch-logo https://brand.com
+  python3 ../../../.claude/skills/paper-ads-prep/brand.py --fetch-logo https://brand.com
 
   # Download a logo URL already found via the browser fallback or WebFetch:
-  python3 ../../../.claude/skills/brand/brand.py --logo-url "https://brand.com/logo.svg"
+  python3 ../../../.claude/skills/paper-ads-prep/brand.py --logo-url "https://brand.com/logo.svg"
 
   # Download open-license fonts the site uses into fonts/ (Google Fonts families):
-  python3 ../../../.claude/skills/brand/brand.py --fetch-fonts "Inter,Playfair Display"
+  python3 ../../../.claude/skills/paper-ads-prep/brand.py --fetch-fonts "Inter,Playfair Display"
 
   # Archive dropped brand-context files into context-uploads/ (the raw-input trail):
-  python3 ../../../.claude/skills/brand/brand.py --save-context "~/Downloads/1720-guidelines.pdf" --move
+  python3 ../../../.claude/skills/paper-ads-prep/brand.py --save-context "~/Downloads/1720-guidelines.pdf" --move
 
 Outputs:
   ./product-images/[slug]-01.jpg  [slug]-02.jpg ...   (flat)
@@ -117,7 +117,7 @@ IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp"}
 LOGO_EXTENSIONS = {".svg", ".png", ".jpg", ".jpeg", ".webp", ".ico"}
 
 # Enrichment fields carried on every catalog entry. brand.py fills what the
-# source exposes (Shopify gives price/category/description); the /brand skill
+# source exposes (Shopify gives price/category/description); the /paper-ads-prep skill
 # enriches the rest (claims, better category) by reading the product page.
 ENRICH_FIELDS = ("price", "category", "description", "claims")
 
@@ -130,7 +130,7 @@ SCRAPE_HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 }
 
-# A brand folder has two compartments: intelligence/ (what /brand writes) and
+# A brand folder has two compartments: intelligence/ (what /paper-ads-prep writes) and
 # generation/ (what every other skill produces from it). --scaffold creates both
 # up front, so a brand's shape on day one matches its shape after fifty shoots.
 INTELLIGENCE_DIRS = (
@@ -400,7 +400,7 @@ def _slugify(text: str, max_len: int = 60) -> str:
 def _project_root() -> Path:
     """Project root, resolved from this file's own location.
 
-    brand.py lives at .claude/skills/brand/brand.py, so parents[3] is the root.
+    brand.py lives at .claude/skills/paper-ads-prep/brand.py, so parents[3] is the root.
     --scaffold runs before the brand folder exists and therefore can't use the
     cwd-relative paths the other commands rely on.
     """
@@ -1256,7 +1256,7 @@ def fetch_logo(site_url: str) -> Optional[List[dict]]:
         print("  ✗ No logo found in the page HTML — the header may be client-rendered,")
         print("    or the site blocks automated access.\n")
         print("  Browser fallback (preferred — catches JS-rendered headers + inline SVG):")
-        print("    Run .claude/skills/brand/extract-site-logo.js via javascript_tool on the")
+        print("    Run .claude/skills/paper-ads-prep/extract-site-logo.js via javascript_tool on the")
         print("    loaded homepage, then save what it returns:")
         print('      brand.py --logo-url "<suggested.value>"   (inline SVG: write it directly)')
         print()

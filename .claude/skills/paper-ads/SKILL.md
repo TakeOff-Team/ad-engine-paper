@@ -17,7 +17,7 @@ optional: [Higgsfield connector or FAL_KEY only if the brand switched image tool
 > **Where brands live.** A brand's folder is `04-Brand/clients/<brand>/` when the
 > project has a `04-Brand/clients/` folder, otherwise `brands/<brand>/`. Every
 > `brands/<brand>/` path in this file means that folder. Read
-> `.claude/skills/brand/references/system.md` once per session: it holds the
+> `.claude/skills/paper-ads-prep/references/system.md` once per session: it holds the
 > rules every skill in this system follows.
 
 
@@ -88,7 +88,7 @@ Create this skill's declared inbox and output folders before use.
 
 ## 0. Read the setup
 
-Read `intelligence/setup.json` (written by `/brand`): `brand_type`
+Read `intelligence/setup.json` (written by `/paper-ads-prep`): `brand_type`
 (`product` or `service`), `image_tool` (`paper` by default; `higgsfield` or
 `fal` only if the person switched), `image_model`, and `paper_file_id` if one
 exists. No file: work out `brand_type` from the brand files, use Paper for
@@ -115,13 +115,17 @@ those into that folder first). Each reference becomes one ad, numbered in
 order: `r1`, `r2`, `r3`. Extra versions of one, only when asked, are `r1-v2`,
 `r1-v3`.
 
+**References from `/competitor-ads-intel`:** when the person picked ads from
+the competitor pages in Paper, those picks are already in `ad-references/`
+(named `<competitor>-<NN>.jpg`). Remake exactly those.
+
 **No references yet:** don't go looking for ads yourself. Picking ads worth
 copying takes the person's taste. Say, warmly:
 
-> "Find two or three ads you love, from any brand, and drop them in here.
-> Screenshots are fine. The Meta Ad Library (facebook.com/ads/library) is the
-> easiest place: search a brand you admire and look for ads that have been
-> running for months, because brands keep paying for the ones that work."
+> "First let's find some ads worth remaking. Run `/competitor-ads-intel` and
+> I'll put every image ad your competitors are running into Paper so you can
+> pick. Or, if you've already seen ads you love from any brand, paste
+> screenshots in here."
 
 **Batch size.** Build up to five references at a time (ten artboards). With
 more, build the first five, take the person's notes, then do the next five.

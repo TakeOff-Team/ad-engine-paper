@@ -1,14 +1,15 @@
 # Tools
 
 The skills use the best tool available for each job, and never stop because a
-nice-to-have is missing. Only Paper is required. Everything else has a fallback.
+nice-to-have is missing. Paper is required, and Apify for `/competitor-ads-intel`. Everything else has a fallback.
 
-**Keep the tool check small.** An everyday person should see two tools, not
-seven. `/brand` mentions only these, at the start of a brand's setup:
+**Keep the tool check small.** An everyday person should see three tools, not
+seven. `/paper-ads-prep` mentions only these, at the start of a brand's setup:
 
 | Shown | Why | If it is missing |
 |---|---|---|
 | **Paper Desktop**, connected to Claude | Builds every ad as editable layers, and makes the photos with its built-in image generation | Required. Setup carries on; the build stops and says how to connect it |
+| **Apify** | Pulls every image ad a competitor runs, for `/competitor-ads-intel` | The person browses the Ad Library links the skill found and screenshots the ones they like |
 | **Firecrawl** (optional) | Reads the brand's website cleanly | Claude's built-in web fetch. JS-heavy sites may come back thin |
 
 Then one sentence: "Photos are made with Paper's built-in image generation. If
@@ -39,13 +40,13 @@ use.
   for {Brand}." If Paper isn't connected at all, give the person the two steps
   in plain words (open Paper Desktop, turn on its Claude connection) and keep
   going with everything that doesn't need it.
-- **Firecrawl, Perplexity, Claude in Chrome:** a tool counts as connected
+- **Apify, Firecrawl, Perplexity, Claude in Chrome:** a tool counts as connected
   if **either** route has it:
   1. **Directly:** the tool appears in this session's tool list.
   2. **Through Composio:** many people connect apps through Composio instead. If
      any Composio tool is in this session (names containing `COMPOSIO`), run
-     `COMPOSIO_SEARCH_TOOLS` with one query per app ("scrape a web page with
-     firecrawl"). It's free, and its connection status
+     `COMPOSIO_SEARCH_TOOLS` with one query per app ("run an apify actor",
+     "scrape a web page with firecrawl"). It's free, and its connection status
      says which toolkits have an active connection.
   Never report a tool as missing until both routes are checked. When a tool is
   connected only through Composio, use it through Composio
@@ -55,12 +56,13 @@ use.
 
 ## How to tell the person
 
-Once, during `/brand`, in two or three friendly sentences. No table, no ✅ ⚠️ ❌,
+Once, during `/paper-ads-prep`, in two or three friendly sentences. No table, no ✅ ⚠️ ❌,
 no "missing", "not connected" or "no key". Lead with what's ready, then name any
 optional extra as something they *could* add later, with what it would get them.
 For example:
 
 > "You're all set: Paper is open and ready, and it'll make the photos too.
+> Apify is connected, so I can pull your competitors' ads in the next step.
 > Firecrawl isn't connected, which is fine. It's an optional extra that reads
 > your site a bit more cleanly, if you ever want it."
 
@@ -74,6 +76,7 @@ them").
 ## Connect lines
 
 ```bash
+claude mcp add --transport http -s user apify https://mcp.apify.com
 claude mcp add --transport http -s user firecrawl https://mcp.firecrawl.dev/YOUR_FIRECRAWL_KEY/v2/mcp
 ```
 
